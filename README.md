@@ -21,7 +21,7 @@ Die Gemeindewappen-Datenbank hat letztlich nicht nur das Ziel, eine zentrale Dat
 
 |Zum Vergleich: Wappendatenbank des HDBG||
 |-|-|
-|![](screenshots\screenshot_bg1.png)|![](screenshots\screenshot_bg2.png)|
+|![](screenshots/screenshot_bg1.png)|![](screenshots/screenshot_bg2.png)|
 
 
 
