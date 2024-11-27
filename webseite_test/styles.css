@@ -54,7 +54,7 @@ body {
 
 /* Wappen */
 .wappen-image {
-    max-width: 100%;
+    max-width: 50vh;
     height: auto;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -77,8 +77,13 @@ body {
 }
 
 a:link {
-    color: rgb(255, 255, 255);
+    color: white;
   }
+
+a:visited {
+    color: white;
+}
+
 
 iframe {
     width: 100%;
