@@ -16,7 +16,6 @@ Neben den heraldischen Informationen werden auch weitere Informationen zu der Ge
 
 
 ~
-
 **Anmerkungen**
 
 [^1]: Gemeindeverzeichnis-Informationssystem GV-ISys, in: Statistische Ämter des Bundes und der Länder, online: https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/_inhalt.html [27.11.2024].
