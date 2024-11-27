@@ -12,16 +12,20 @@ Die Gemeindewappen-Datenbank hat letztlich nicht nur das Ziel, eine zentrale Dat
 
 503 Wörter
 
-
-|Erster Entwurf zweier Einträge||
-|-|-|
-|![](screenshots/screenshots_website_v1_1.png)|![](screenshots/screenshots_website_v1_2.png)|
-
-
-
-|Zum Vergleich: Wappendatenbank des HDBG||
-|-|-|
-|![](screenshots/screenshot_bg1.png)|![](screenshots/screenshot_bg2.png)|
+<h4>Erster Entwurf zweier Datenbankeinträge</h4>
+<table>
+    <tr>
+        <td><img src="screenshots/screenshot_website_v1_1.png"></img></td>
+        <td><img src="screenshots/screenshot_website_v1_2.png"></img></td>
+    </tr>
+</table>
+<h4>Zum Vergleich: die Wappendatenbank des HDBG</h4>
+<table>
+    <tr>
+        <td><img src="screenshots/screenshot_bg1.png"></img></td>
+        <td><img src="screenshots/screenshot_bg2.png"></img></td>
+    </tr>
+</table>
 
 
 
