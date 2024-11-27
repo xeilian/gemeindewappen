@@ -1,3 +1,6 @@
+# Gemeindewappen-Datenbank
+## Abstract
+
 Egal ob eigenständige Gemeinde, Stadt oder eingemeindete Ortsteile: in Deutschland hat so ziemlich jede Siedlung ein eigenes Gemeindewappen. Auch wenn sie heutzutage immer mehr in Vergessenheit geraten, können uns Gemeindewappen viel über die Identität einer Siedlung erzählen: Da Gemeindewappen in erster Linie Repräsentationen von Orten sind, kann uns die Verwendung von Tinkturen (also Farben), Formen und Formen viel über die Außendarstellung eines Ortes verraten. 
 
 Das Statistische Bundesamt zählt Stand September 2024 10.959 Gemeinden und Städte[^1]. Das war aber natürlich keineswegs immer so. 1950 waren es, also weit vor der großen Eingemeindungswelle an der Schwelle in die 1970er-Jahre[^2], 24.214 Gemeinden - und das nur in Westdeutschland[^3]. Addiert man dazu die ehemaligen Gemeinden Ostdeutschlands, Stadtteil- wie Landkreiswappen sowie Wappen von kleineren unselbstständigen Dörfern und Weilern, kommt man auf eine atemberaubende Zahl an Gemeindewappen, die so in ihrer Ganzheit noch nie in einer einheitlichen Datenbank erfasst wurden. 
@@ -10,8 +13,10 @@ Doch woher kommen die Daten denn nun? Allgemeine Informationen zu den einzelnen 
 
 Die Gemeindewappen-Datenbank hat letztlich nicht nur das Ziel, eine zentrale Datenbank für alle Gemeindewappen Deutschlands (und eventuell auch darüber hinaus) zu schaffen, sondern auch ein einsteigerfreundliches Werkzeug bereitstellen, um die bunte und vielfältige Welt der Gemeindeheraldik für alle zugänglich zu machen.
 
-503 Wörter
+*503 Wörter*
 
+
+## Screenshots zur Veranschaulichung
 <h4>Erster Entwurf zweier Datenbankeinträge</h4>
 <table>
     <tr>
@@ -28,7 +33,7 @@ Die Gemeindewappen-Datenbank hat letztlich nicht nur das Ziel, eine zentrale Dat
 </table>
 
 
-
+## Literaturangaben
 [^1]: Gemeindeverzeichnis-Informationssystem GV-ISys, in: Statistische Ämter des Bundes und der Länder, online: https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/_inhalt.html [27.11.2024].
 [^2]: Beispielsweise wurden in Baden-Württemberg durch das *Besondere Gemeindereformgesetz vom 9. Juli 1975* die Anzahl der Kommunen von 3.379 auf 1.111 gedrittelt, vgl. Brachat-Schwart, Werner: 50 Jahre Gemeindereform in Baden-Württemberg. Wie wurde die Reform in den einzelnen Landesteilen umgesetzt und wie haben sich die »neuen« Kommunen seither entwickelt?, in: Statistisches Monatsheft 6+7 (2024), S. 16.
 [^2]: Beispielsweise wurden in Baden-Württemberg durch das *Besondere Gemeindereformgesetz vom 9. Juli 1975* die Anzahl der Kommunen von 3.379 auf 1.111 gedrittelt, vgl. Brachat-Schwart, Werner: 50 Jahre Gemeindereform in Baden-Württemberg. Wie wurde die Reform in den einzelnen Landesteilen umgesetzt und wie haben sich die »neuen« Kommunen seither entwickelt?, in: Statistisches Monatsheft 6+7 (2024), S. 16.
