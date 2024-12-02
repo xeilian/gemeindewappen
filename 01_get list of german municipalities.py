@@ -1,4 +1,5 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
+import csv
 
 # Setze die URL für den Wikidata SPARQL-Endpunkt
 sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
@@ -42,13 +43,14 @@ def extract_alle_gemeinden(bundesland_wikidata_id):
 
     try:
         results = sparql.query().convert()
-
-        with open(f"{bundesland_id}_municipalities.csv", mode="w", newline="", encoding="utf-8") as file:
+        with open(f"gemeinden_deutschland/{wikidata_bundeslaender[bundesland_wikidata_id].lower().replace(" ", "_")}_gemeinden.csv", mode="w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
-            writer.writerow(["Item", "Label"])
+            writer.writerow(["Wikidata-Link", "Name"])
             
             for result in results["results"]["bindings"]:
                 item = result['item']['value']
                 label = result['itemLabel']['value']
                 writer.writerow([item, label])
+    except Exception as e:
+        print(f"Fehler beim Abrufen oder Speichern von Daten für {wikidata_bundeslaender[bundesland_wikidata_id]}: {e}")
 
