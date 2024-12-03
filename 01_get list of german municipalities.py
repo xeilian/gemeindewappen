@@ -1,4 +1,5 @@
 import csv, time, tqdm
+import csv, time, tqdm
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -90,6 +91,12 @@ def extract_alle_gemeinden(landkreis_wikidata_id, bundesland_wikidata_id):
     except Exception as e:
         print(f"Fehler beim Abrufen oder Speichern von Daten für {wikidata_bundeslaender[bundesland_wikidata_id]}: {e}")
 
+
+if __name__ == "__main__":
+    for i in wikidata_bundeslaender.keys():
+        extract_alle_gemeinden(i)
+        for i in tqdm.tqdm(range(50)):
+            time.sleep(1)
 
 if __name__ == "__main__":
     for i in wikidata_bundeslaender.keys():
