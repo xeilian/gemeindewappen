@@ -23,7 +23,7 @@ wikidata_bundeslaender = {
 }
 
 
-def extract_alle_landkreise(bundesland_wikidata_id):
+def extract_all_landkreise(bundesland_wikidata_id):
     sparql_query = f"""
     SELECT DISTINCT ?item ?itemLabel WHERE {{
         SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }}
@@ -43,10 +43,9 @@ def extract_alle_landkreise(bundesland_wikidata_id):
 
     try:
         results = sparql.query().convert()
-        with open(f"gemeinden_deutschland\landkreise_deutschland.csv", mode="a", newline="", encoding="utf-8") as file:
-            writer = csv.writer(file)
-            writer.writerow(["Wikidata-Link", "Name"])
-            
+        print(results)
+        with open(f"gemeinden_deutschland_wikidata/landkreise_deutschland.csv", mode="a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)            
             landkreis_ids = []
             for result in results["results"]["bindings"]:
                 item = result['item']['value']
@@ -60,7 +59,7 @@ def extract_alle_landkreise(bundesland_wikidata_id):
         return None
 
 
-def extract_alle_gemeinden(landkreis_wikidata_id, bundesland_wikidata_id):
+def extract_all_gemeinden(landkreis_wikidata_id, bundesland_wikidata_id):
     sparql_query = f"""
     SELECT DISTINCT ?item ?itemLabel WHERE {{
         SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }}
@@ -79,10 +78,8 @@ def extract_alle_gemeinden(landkreis_wikidata_id, bundesland_wikidata_id):
 
     try:
         results = sparql.query().convert()
-        with open(f"gemeinden_deutschland\{wikidata_bundeslaender[bundesland_wikidata_id].lower().replace(" ", "_").replace("ü","ue")}_gemeinden.csv", mode="w", newline="", encoding="utf-8") as file:
-            writer = csv.writer(file)
-            writer.writerow(["Wikidata-Link", "Name"])
-            
+        with open(f"gemeinden_deutschland_wikidata/{wikidata_bundeslaender[bundesland_wikidata_id].lower().replace(" ", "_").replace("ü","ue")}_gemeinden.csv", mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)         
             for result in results["results"]["bindings"]:
                 item = result['item']['value']
                 label = result['itemLabel']['value']
@@ -94,6 +91,8 @@ def extract_alle_gemeinden(landkreis_wikidata_id, bundesland_wikidata_id):
 
 if __name__ == "__main__":
     for i in wikidata_bundeslaender.keys():
-        list_landkreise = extract_alle_landkreise(i)
-        for j in list_landkreise:
-            extract_alle_gemeinden(j, i)
+        list_landkreise = extract_all_landkreise(i)
+        print("Landkreise erstellt!")
+        #for j in list_landkreise:
+        #    extract_all_gemeinden(j, i)
+        #    print(f"Gemeinden für Landkreis {j} erstellt!")
