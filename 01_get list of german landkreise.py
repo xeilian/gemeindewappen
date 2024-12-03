@@ -1,5 +1,4 @@
-import csv, time, tqdm
-import csv, time, tqdm
+import csv
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -44,7 +43,7 @@ def extract_all_landkreise(bundesland_wikidata_id):
     try:
         results = sparql.query().convert()
         print(results)
-        with open(f"gemeinden_deutschland_wikidata/landkreise_deutschland.csv", mode="a", newline="", encoding="utf-8") as file:
+        with open(f"wikidata_output/landkreise_deutschland.csv", mode="a", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)            
             landkreis_ids = []
             for result in results["results"]["bindings"]:
