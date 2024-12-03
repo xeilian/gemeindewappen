@@ -93,6 +93,6 @@ if __name__ == "__main__":
     for i in wikidata_bundeslaender.keys():
         list_landkreise = extract_all_landkreise(i)
         print("Landkreise erstellt!")
-        #for j in list_landkreise:
-        #    extract_all_gemeinden(j, i)
-        #    print(f"Gemeinden für Landkreis {j} erstellt!")
+        for j in list_landkreise:
+            extract_all_gemeinden(j, i)
+            print(f"Gemeinden für Landkreis {j} erstellt!")
