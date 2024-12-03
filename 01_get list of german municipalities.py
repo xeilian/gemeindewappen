@@ -1,10 +1,7 @@
+import csv, time, tqdm
 from SPARQLWrapper import SPARQLWrapper, JSON
-import csv
 
-# Setze die URL für den Wikidata SPARQL-Endpunkt
-sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
 
-# Liste der Wikidata-IDs der Bundesländer
 wikidata_bundeslaender = {
     "Q985": "Baden-Württemberg",
     "Q980": "Bayern",
@@ -24,7 +21,6 @@ wikidata_bundeslaender = {
     "Q1197": "Niedersachsen",
 }
 
-bundesland_wikidata_ids = wikidata_bundeslaender.keys()
 
 def extract_alle_gemeinden(bundesland_wikidata_id):
     sparql_query = f"""
@@ -38,12 +34,14 @@ def extract_alle_gemeinden(bundesland_wikidata_id):
     LIMIT 100
     """
     
+    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
     sparql.setQuery(sparql_query)
     sparql.setReturnFormat(JSON)
+    print(f"SPARQL-Query für {wikidata_bundeslaender[bundesland_wikidata_id]} gesendet!")
 
     try:
         results = sparql.query().convert()
-        with open(f"gemeinden_deutschland/{wikidata_bundeslaender[bundesland_wikidata_id].lower().replace(" ", "_")}_gemeinden.csv", mode="w", newline="", encoding="utf-8") as file:
+        with open(f"gemeinden_deutschland/{wikidata_bundeslaender[bundesland_wikidata_id].lower().replace(" ", "_").replace("ü","ue")}_gemeinden.csv", mode="w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["Wikidata-Link", "Name"])
             
@@ -51,6 +49,13 @@ def extract_alle_gemeinden(bundesland_wikidata_id):
                 item = result['item']['value']
                 label = result['itemLabel']['value']
                 writer.writerow([item, label])
+        print(f"{wikidata_bundeslaender[bundesland_wikidata_id]} wurde verarbeitet!")
     except Exception as e:
         print(f"Fehler beim Abrufen oder Speichern von Daten für {wikidata_bundeslaender[bundesland_wikidata_id]}: {e}")
 
+
+if __name__ == "__main__":
+    for i in wikidata_bundeslaender.keys():
+        extract_alle_gemeinden(i)
+        for i in tqdm.tqdm(range(50)):
+            time.sleep(1)
