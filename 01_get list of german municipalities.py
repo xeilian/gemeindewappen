@@ -94,12 +94,6 @@ def extract_alle_gemeinden(landkreis_wikidata_id, bundesland_wikidata_id):
 
 if __name__ == "__main__":
     for i in wikidata_bundeslaender.keys():
-        extract_alle_gemeinden(i)
-        for i in tqdm.tqdm(range(50)):
-            time.sleep(1)
-
-if __name__ == "__main__":
-    for i in wikidata_bundeslaender.keys():
         list_landkreise = extract_alle_landkreise(i)
         for j in list_landkreise:
             extract_alle_gemeinden(j, i)
