@@ -130,3 +130,71 @@ SELECT DISTINCT ?item ?itemLabel WHERE {
 * Bremen: Q24879
 * Hamburg: Q1055
 * Berlin: Q64
+
+
+## Wichtige Kategorien
+* P31 (evtl. gibt es mehere, gibt es start- und enddatum? wenn ja, bitte mitnehmen)
+* P36
+* P131 (evtl. gibt es da mehrere antworten)
+* P625
+* P1082 (alle historischen daten samt jahr)
+* P150 (alle antworten bitte)
+* P2046
+* P94 (nur den Link zum Wappen)
+* P395
+* P227
+* P1566
+* P402
+* P11693
+
+```
+SELECT DISTINCT ?instanceOf ?capital ?adminUnit ?coordinates ?population ?subdivision 
+                ?area ?coatOfArms ?insignia ?gnd ?geonamesID ?openStreetMapID ?municode
+                ?startDate ?endDate WHERE {
+  
+  # Instanz von (P31)
+  OPTIONAL { wd:Q3232 wdt:P31 ?instanceOf. }
+  
+  # Hauptstadt (P36)
+  OPTIONAL { wd:Q3232 wdt:P36 ?capital. }
+  
+  # Verwaltungseinheit (P131)
+  OPTIONAL { wd:Q3232 wdt:P131 ?adminUnit. }
+  
+  # Koordinaten (P625)
+  OPTIONAL { wd:Q3232 wdt:P625 ?coordinates. }
+  
+  # Bevölkerung (P1082) mit Datum (P585) für historische Populationen
+  OPTIONAL {
+    wd:Q3232 p:P1082 ?populationStatement.
+    ?populationStatement ps:P1082 ?population.
+    OPTIONAL { ?populationStatement pq:P585 ?startDate. }
+    OPTIONAL { ?populationStatement pq:P582 ?endDate. }
+  }
+  
+  # Untereinheiten (P150)
+  OPTIONAL { wd:Q3232 wdt:P150 ?subdivision. }
+  
+  # Fläche (P2046)
+  OPTIONAL { wd:Q3232 wdt:P2046 ?area. }
+  
+  # Wappen (P94)
+  OPTIONAL { wd:Q3232 wdt:P94 ?coatOfArms. }
+  
+  # Insignien (P395)
+  OPTIONAL { wd:Q3232 wdt:P395 ?insignia. }
+  
+  # GND (P227)
+  OPTIONAL { wd:Q3232 wdt:P227 ?gnd. }
+  
+  # Geonames-ID (P1566)
+  OPTIONAL { wd:Q3232 wdt:P1566 ?geonamesID. }
+  
+  # OpenStreetMap-ID (P402)
+  OPTIONAL { wd:Q3232 wdt:P402 ?openStreetMapID. }
+  
+  # Muni-Code (P11693)
+  OPTIONAL { wd:Q3232 wdt:P11693 ?municode. }
+}
+ORDER BY ?instanceOf ?startDate ?capital
+```
