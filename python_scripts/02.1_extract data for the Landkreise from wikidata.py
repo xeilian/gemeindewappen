@@ -7,16 +7,17 @@ SELECT DISTINCT ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?
 
     # Instanz von (P31)
     OPTIONAL {
-      wd:Q3232 p:31 ?instanceOfStatement.
+      wd:Q3232 p:P31 ?instanceOfStatement.
       ?instanceOfStatement ps:P31 ?instanceOf.
-      OPTIONAL { ?instanceOfStatement pq:P585 ?instanceOfStartDate. }
+      OPTIONAL { ?instanceOfStatement pq:P580 ?instanceOfStartDate. }  # Startdatum
+      OPTIONAL { ?instanceOfStatement pq:P582 ?instanceOfEndDate. }    # Enddatum
     }
     BIND (
         IF(BOUND(?instanceOf),
            CONCAT(STR(?instanceOf),
                   IF(BOUND(?instanceOfStartDate),
                      CONCAT(" (", STR(?instanceOfStartDate),
-                            IF(BOUND(?instanceOfStartDate) && BOUND(?instanceOfEndDate), " - ", ""),
+                            IF(BOUND(?instanceOfEndDate), " - ", ""),
                             IF(BOUND(?instanceOfEndDate), STR(?instanceOfEndDate), ""), ")"),
                      "")
                   ),
@@ -26,17 +27,17 @@ SELECT DISTINCT ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?
 
     # Verwaltungseinheit (P131)
     OPTIONAL {
-      wd:Q3232 p:131 ?adminUnitStatement.
+      wd:Q3232 p:P131 ?adminUnitStatement.
       ?adminUnitStatement ps:P131 ?adminUnit.
-      OPTIONAL { ?adminUnitStatement pq:P585 ?adminUnitStartDate. }
-      OPTIONAL { ?adminUnitStatement pq:P582 ?adminUnitEndDate. }
+      OPTIONAL { ?adminUnitStatement pq:P580 ?adminUnitStartDate. }  # Startdatum
+      OPTIONAL { ?adminUnitStatement pq:P582 ?adminUnitEndDate. }    # Enddatum
     }
     BIND (
         IF(BOUND(?adminUnit),
            CONCAT(STR(?adminUnit),
                   IF(BOUND(?adminUnitStartDate),
                      CONCAT(" (", STR(?adminUnitStartDate),
-                            IF(BOUND(?adminUnitStartDate) && BOUND(?adminUnitEndDate), " - ", ""),
+                            IF(BOUND(?adminUnitEndDate), " - ", ""),
                             IF(BOUND(?adminUnitEndDate), STR(?adminUnitEndDate), ""), ")"),
                      "")
                   ),
@@ -47,16 +48,14 @@ SELECT DISTINCT ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?
     # Fläche (P2046)
     OPTIONAL {
       wd:Q3232 p:P2046 ?areaStatement.
-      ?areaStatement ps:P1082 ?area.
-      OPTIONAL { ?areaStatement pq:P585 ?areaStartDate. }
+      ?areaStatement ps:P2046 ?area.
+      OPTIONAL { ?areaStatement pq:P585 ?areaStartDate. }  # Datum der Fläche
     }
     BIND (
         IF(BOUND(?area),
            CONCAT(STR(?area),
                   IF(BOUND(?areaStartDate),
-                     CONCAT(" (", STR(?areaStartDate),
-                            IF(BOUND(?areaStartDate) && BOUND(?areaEndDate), " - ", ""),
-                            IF(BOUND(?areaEndDate), STR(?areaEndDate), ""), ")"),
+                     CONCAT(" (", STR(?areaStartDate), ")"),
                      "")
                   ),
            ""
@@ -75,7 +74,16 @@ SELECT DISTINCT ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?
       ?populationStatement ps:P1082 ?population.
       OPTIONAL { ?populationStatement pq:P585 ?popDate. }
     }
-    BIND (IF(BOUND(?population) && BOUND(?popDate), CONCAT(STR(?population), " (", STR(?popDate), ")"), STR(?population)) AS ?populationData)
+    BIND (
+        IF(BOUND(?population),
+           CONCAT(STR(?population),
+                  IF(BOUND(?popDate),
+                     CONCAT(" (", STR(?popDate), ")"),
+                     "")
+                  ),
+           ""
+        ) AS ?populationData
+    )
 
     # Untereinheiten (P150)
     OPTIONAL { wd:Q3232 wdt:P150 ?subdivision. }
