@@ -126,22 +126,20 @@ data = {
     "geonames_id": [],
     "openstreetmap_rel_id": [],
     "openstreetmap_node_id": [],
-    "start_date": []
 }
 
 for entry in results['results']['bindings']:
-    instance_of = entry['instanceOf']['value']
-    admin_unit = entry['adminUnit']['value']
+    instance_of = entry['instanceOfData']['value']
+    admin_unit = entry['adminUnitData']['value']
     coordinates = entry['coordinates']['value']
-    population = entry['population']['value']
-    area = entry['area']['value']
+    population = entry['populationData']['value']
+    area = entry['areaData']['value']
     coat_of_arms = entry['coatOfArms']['value']
     insignia = entry['insignia']['value']
     gnd = entry['gnd']['value']
     geonames_id = entry['geonamesID']['value']
     openstreetmap_rel_id = entry['openStreetMapRelationID']['value']
     openstreetmap_node_id = entry['openStreetMapNodeID']['value']
-    start_date = entry['startDate']['value']
 
     dict_temp = {
     "instance_of": instance_of,
@@ -155,7 +153,6 @@ for entry in results['results']['bindings']:
     "geonames_id": geonames_id,
     "openstreetmap_rel_id": openstreetmap_rel_id,
     "openstreetmap_node_id": openstreetmap_node_id,
-    "start_date": start_date
     }
 
     for key, value in dict_temp.items():
