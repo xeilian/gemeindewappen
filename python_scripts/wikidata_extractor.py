@@ -207,7 +207,9 @@ def wikidata_extractor(wikidata_id):
             "sitelink_en": sitelink_en,
             "sitelink_fr": sitelink_fr,
         }
-
+        
         for key, value in dict_temp.items():
           if value not in data[key]:
-              data[key].append(value)
+              data[key].append(value)        
+
+    return data
