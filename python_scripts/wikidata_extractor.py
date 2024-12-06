@@ -139,7 +139,6 @@ def wikidata_extractor(wikidata_id):
     sparql.setQuery(sparql_query)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
-    print(results)
 
     data = {
         "instance_of": [],
@@ -165,26 +164,26 @@ def wikidata_extractor(wikidata_id):
     }
 
     for entry in results['results']['bindings']:
-        instance_of = entry.get('instanceOfData', {}).get('value', "NULL")
-        admin_unit = entry.get('adminUnitData', {}).get('value', "NULL")
-        coordinates = entry.get('coordinates', {}).get('value', "NULL")
-        population = entry.get('populationData', {}).get('value', "NULL")
-        area = entry.get('areaData', {}).get('value', "NULL")
-        coat_of_arms = entry.get('coatOfArms', {}).get('value', "NULL")
-        insignia = entry.get('insignia', {}).get('value', "NULL")
-        gnd = entry.get('gnd', {}).get('value', "NULL")
-        geonames_id = entry.get('geonamesID', {}).get('value', "NULL")
-        openstreetmap_rel_id = entry.get('openStreetMapRelationID', {}).get('value', "NULL")
-        openstreetmap_node_id = entry.get('openStreetMapNodeID', {}).get('value', "NULL")
-        label_de = entry.get('label_de', {}).get('value', "NULL")
-        label_en = entry.get('label_en', {}).get('value', "NULL")
-        label_fr = entry.get('label_fr', {}).get('value', "NULL")
-        desc_de = entry.get('desc_de', {}).get('value', "NULL")
-        desc_en = entry.get('desc_en', {}).get('value', "NULL")
-        desc_fr = entry.get('desc_fr', {}).get('value', "NULL")
-        sitelink_de = entry.get('sitelink_de', {}).get('value', "NULL")
-        sitelink_en = entry.get('sitelink_en', {}).get('value', "NULL")
-        sitelink_fr = entry.get('sitelink_fr', {}).get('value', "NULL")
+        instance_of = entry['instanceOfData']['value'] if 'instanceOfData' in entry else "NULL"
+        admin_unit = entry['adminUnitData']['value'] if 'adminUnitData' in entry else "NULL"
+        coordinates = entry['coordinates']['value'] if 'coordinates' in entry else "NULL"
+        population = entry['populationData']['value'] if 'populationData' in entry else "NULL"
+        area = entry['areaData']['value'] if 'areaData' in entry else "NULL"
+        coat_of_arms = entry['coatOfArms']['value'] if 'coatOfArms' in entry else "NULL"
+        insignia = entry['insignia']['value'] if 'insignia' in entry else "NULL"
+        gnd = entry['gnd']['value'] if 'gnd' in entry else "NULL"
+        geonames_id = entry['geonamesID']['value'] if 'geonamesID' in entry else "NULL"
+        openstreetmap_rel_id = entry['openStreetMapRelationID']['value'] if 'openStreetMapRelationID' in entry else "NULL"
+        openstreetmap_node_id = entry['openStreetMapNodeID']['value'] if 'openStreetMapNodeID' in entry else "NULL"
+        label_de = entry['label_de']['value'] if 'label_de' in entry else "NULL"
+        label_en = entry['label_en']['value'] if 'label_en' in entry else "NULL"
+        label_fr = entry['label_fr']['value'] if 'label_fr' in entry else "NULL"
+        desc_de = entry['desc_de']['value'] if 'desc_de' in entry else "NULL"
+        desc_en = entry['desc_en']['value'] if 'desc_en' in entry else "NULL"
+        desc_fr = entry['desc_fr']['value'] if 'desc_fr' in entry else "NULL"
+        sitelink_de = entry['sitelink_de']['value'] if 'sitelink_de' in entry else "NULL"
+        sitelink_en = entry['sitelink_en']['value'] if 'sitelink_en' in entry else "NULL"
+        sitelink_fr = entry['sitelink_fr']['value'] if 'sitelink_fr' in entry else "NULL"
 
         dict_temp = {
             "instance_of": instance_of,
@@ -210,7 +209,5 @@ def wikidata_extractor(wikidata_id):
         }
 
         for key, value in dict_temp.items():
-            if value not in data[key]:
-                data[key].append(value)
-
-    return data
+          if value not in data[key]:
+              data[key].append(value)

@@ -30,7 +30,7 @@ with open('wikidata_output/dummy_data.csv', mode="r", encoding="utf-8", newline=
 
     if all_data:
         fieldnames = list(all_data[0].keys())
-        with open(output_file, mode="w", encoding="utf-8", newline="") as outputfile:
+        with open(output_file, mode="a", encoding="utf-8", newline="") as outputfile:
             writer = csv.DictWriter(outputfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(all_data)

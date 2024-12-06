@@ -1,3 +1,4 @@
-text_counter.py
-svg_color_extraction_test1.py
-01_get list of german municipalities.py
+workspace/text_counter.py
+workspace/svg_color_extraction_test1.py
+workspace/01_get list of german municipalities.py
+python_scripts/__pycache__
