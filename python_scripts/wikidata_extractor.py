@@ -139,6 +139,7 @@ def wikidata_extractor(wikidata_id):
     sparql.setQuery(sparql_query)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
+    print(results)
 
     data = {
         "instance_of": [],
@@ -164,52 +165,52 @@ def wikidata_extractor(wikidata_id):
     }
 
     for entry in results['results']['bindings']:
-        instance_of = entry['instanceOfData']['value']
-        admin_unit = entry['adminUnitData']['value']
-        coordinates = entry['coordinates']['value']
-        population = entry['populationData']['value']
-        area = entry['areaData']['value']
-        coat_of_arms = entry['coatOfArms']['value']
-        insignia = entry['insignia']['value']
-        gnd = entry['gnd']['value']
-        geonames_id = entry['geonamesID']['value']
-        openstreetmap_rel_id = entry['openStreetMapRelationID']['value']
-        openstreetmap_node_id = entry['openStreetMapNodeID']['value']
-        label_de = entry['label_de']['value']
-        label_en = entry['label_en']['value']
-        label_fr = entry['label_fr']['value']
-        desc_de = entry['desc_de']['value']
-        desc_en = entry['desc_en']['value']
-        desc_fr = entry['desc_fr']['value']
-        sitelink_de = entry['sitelink_de']['value']
-        sitelink_en = entry['sitelink_en']['value']
-        sitelink_fr = entry['sitelink_fr']['value']
+        instance_of = entry.get('instanceOfData', {}).get('value', "NULL")
+        admin_unit = entry.get('adminUnitData', {}).get('value', "NULL")
+        coordinates = entry.get('coordinates', {}).get('value', "NULL")
+        population = entry.get('populationData', {}).get('value', "NULL")
+        area = entry.get('areaData', {}).get('value', "NULL")
+        coat_of_arms = entry.get('coatOfArms', {}).get('value', "NULL")
+        insignia = entry.get('insignia', {}).get('value', "NULL")
+        gnd = entry.get('gnd', {}).get('value', "NULL")
+        geonames_id = entry.get('geonamesID', {}).get('value', "NULL")
+        openstreetmap_rel_id = entry.get('openStreetMapRelationID', {}).get('value', "NULL")
+        openstreetmap_node_id = entry.get('openStreetMapNodeID', {}).get('value', "NULL")
+        label_de = entry.get('label_de', {}).get('value', "NULL")
+        label_en = entry.get('label_en', {}).get('value', "NULL")
+        label_fr = entry.get('label_fr', {}).get('value', "NULL")
+        desc_de = entry.get('desc_de', {}).get('value', "NULL")
+        desc_en = entry.get('desc_en', {}).get('value', "NULL")
+        desc_fr = entry.get('desc_fr', {}).get('value', "NULL")
+        sitelink_de = entry.get('sitelink_de', {}).get('value', "NULL")
+        sitelink_en = entry.get('sitelink_en', {}).get('value', "NULL")
+        sitelink_fr = entry.get('sitelink_fr', {}).get('value', "NULL")
 
         dict_temp = {
-        "instance_of": instance_of,
-        "admin_unit": admin_unit,
-        "coordinates": coordinates,
-        "population": population,
-        "area": area,
-        "coat_of_arms": coat_of_arms,
-        "insignia": insignia,
-        "gnd": gnd,
-        "geonames_id": geonames_id,
-        "openstreetmap_rel_id": openstreetmap_rel_id,
-        "openstreetmap_node_id": openstreetmap_node_id,
-        "label_de": label_de,
-        "label_en": label_en,
-        "label_fr": label_fr,
-        "desc_de": desc_de,
-        "desc_en": desc_en,
-        "desc_fr": desc_fr,
-        "sitelink_de": sitelink_de,
-        "sitelink_en": sitelink_en,
-        "sitelink_fr": sitelink_fr,
+            "instance_of": instance_of,
+            "admin_unit": admin_unit,
+            "coordinates": coordinates,
+            "population": population,
+            "area": area,
+            "coat_of_arms": coat_of_arms,
+            "insignia": insignia,
+            "gnd": gnd,
+            "geonames_id": geonames_id,
+            "openstreetmap_rel_id": openstreetmap_rel_id,
+            "openstreetmap_node_id": openstreetmap_node_id,
+            "label_de": label_de,
+            "label_en": label_en,
+            "label_fr": label_fr,
+            "desc_de": desc_de,
+            "desc_en": desc_en,
+            "desc_fr": desc_fr,
+            "sitelink_de": sitelink_de,
+            "sitelink_en": sitelink_en,
+            "sitelink_fr": sitelink_fr,
         }
 
         for key, value in dict_temp.items():
-          if value not in data[key]:
-              data[key].append(value)
+            if value not in data[key]:
+                data[key].append(value)
 
     return data
