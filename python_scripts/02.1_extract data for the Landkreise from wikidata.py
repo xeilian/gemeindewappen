@@ -1,7 +1,7 @@
-import csv
+import csv, time
 from wikidata_extractor import wikidata_extractor
 
-with open('wikidata_output/dummy_data.csv', mode="r", encoding="utf-8", newline="") as inputfile:
+with open('wikidata_output/landkreise_deutschland_raw.csv', mode="r", encoding="utf-8", newline="") as inputfile:
     reader = csv.reader(inputfile)
     output_file = "landkreise_deutschland_with_data.csv"
     for i, row in enumerate(reader):
@@ -22,7 +22,8 @@ with open('wikidata_output/dummy_data.csv', mode="r", encoding="utf-8", newline=
                     for key, values in data.items():
                         row[key] = f'{', '.join(values)}'
                     writer.writerow(row)
-                    print(f"Ergebnisse in {output_file} gespeichert.")                
+                    time.sleep(0)
+                    print(f"Ergebnisse in {output_file} gespeichert.")
             else:
                 print(f"Keine Daten für Wikidata-ID: {wikidata_id}")
         except Exception as e:

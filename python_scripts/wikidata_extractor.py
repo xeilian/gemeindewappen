@@ -5,7 +5,7 @@ def wikidata_extractor(wikidata_id):
         ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?populationData 
         ?subdivision ?coatOfArms ?insignia ?gnd ?geonamesID ?openStreetMapRelationID 
         ?openStreetMapNodeID ?label_de ?label_en ?label_fr ?desc_de ?desc_en ?desc_fr 
-        ?sitelink_de ?sitelink_en ?sitelink_fr
+        ?sitelink_de ?sitelink_en ?sitelink_fr ?inception ?abolition
     WHERE {{
         # Labels in different languages
         OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_de. FILTER(LANG(?label_de) = "de") }}
@@ -131,6 +131,12 @@ def wikidata_extractor(wikidata_id):
         
         # OpenStreetMap Node ID (P11693)
         OPTIONAL {{ wd:{wikidata_id} wdt:P11693 ?openStreetMapNodeID. }}
+
+        # Inception (P571)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P571 ?inception. }}
+
+        # Abolition (P576)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P576 ?abolition. }}
     }}
     ORDER BY ?instanceOfData ?adminUnitData ?areaData
     """
@@ -148,6 +154,8 @@ def wikidata_extractor(wikidata_id):
         "area": [],
         "coat_of_arms": [],
         "insignia": [],
+        "inception": [],
+        "abolition": [],
         "gnd": [],
         "geonames_id": [],
         "openstreetmap_rel_id": [],
@@ -160,7 +168,7 @@ def wikidata_extractor(wikidata_id):
         "desc_fr": [],
         "sitelink_de": [],
         "sitelink_en": [],
-        "sitelink_fr": [],
+        "sitelink_fr": []
     }
 
     for entry in results['results']['bindings']:
@@ -171,6 +179,8 @@ def wikidata_extractor(wikidata_id):
         area = entry['areaData']['value'] if 'areaData' in entry else "NULL"
         coat_of_arms = entry['coatOfArms']['value'] if 'coatOfArms' in entry else "NULL"
         insignia = entry['insignia']['value'] if 'insignia' in entry else "NULL"
+        inception = entry['inception']['value'] if 'inception' in entry else "NULL"
+        abolition = entry['abolition']['value'] if 'abolition' in entry else "NULL"
         gnd = entry['gnd']['value'] if 'gnd' in entry else "NULL"
         geonames_id = entry['geonamesID']['value'] if 'geonamesID' in entry else "NULL"
         openstreetmap_rel_id = entry['openStreetMapRelationID']['value'] if 'openStreetMapRelationID' in entry else "NULL"
@@ -193,6 +203,8 @@ def wikidata_extractor(wikidata_id):
             "area": area,
             "coat_of_arms": coat_of_arms,
             "insignia": insignia,
+            "inception": inception,
+            "abolition": abolition,
             "gnd": gnd,
             "geonames_id": geonames_id,
             "openstreetmap_rel_id": openstreetmap_rel_id,
