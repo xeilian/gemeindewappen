@@ -1,9 +1,11 @@
 import csv, time
 from wikidata_extractor import wikidata_extractor
 
-with open('wikidata_output/landkreise_deutschland_raw.csv', mode="r", encoding="utf-8", newline="") as inputfile:
+input_file = "wikidata_output/landkreise_deutschland_raw.csv"
+output_file = "landkreise_deutschland_with_data.csv"
+
+with open(input_file, mode="r", encoding="utf-8", newline="") as inputfile:
     reader = csv.reader(inputfile)
-    output_file = "landkreise_deutschland_with_data.csv"
     for i, row in enumerate(reader):
         if len(row) < 3:
             print(f"Warnung: Ungültige Zeile {i + 1} übersprungen: {row}")

@@ -3,34 +3,10 @@ def wikidata_extractor(wikidata_id):
     sparql_query = f"""
     SELECT DISTINCT 
         ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?populationData 
-        ?subdivision ?coatOfArms ?insignia ?gnd ?geonamesID ?openStreetMapRelationID 
-        ?openStreetMapNodeID ?label_de ?label_en ?label_fr ?desc_de ?desc_en ?desc_fr 
+        ?subdivision ?flagInfo ?flagImage ?coatOfArmsInfo ?coatOfArmsImage ?insignia ?gnd ?geonamesID 
+        ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr ?desc_de ?desc_en ?desc_fr 
         ?sitelink_de ?sitelink_en ?sitelink_fr ?inception ?abolition
     WHERE {{
-        # Labels in different languages
-        OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_de. FILTER(LANG(?label_de) = "de") }}
-        OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_en. FILTER(LANG(?label_en) = "en") }}
-        OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_fr. FILTER(LANG(?label_fr) = "fr") }}
-
-        # Descriptions in different languages
-        OPTIONAL {{ wd:{wikidata_id} schema:description ?desc_de. FILTER(LANG(?desc_de) = "de") }}
-        OPTIONAL {{ wd:{wikidata_id} schema:description ?desc_en. FILTER(LANG(?desc_en) = "en") }}
-        OPTIONAL {{ wd:{wikidata_id} schema:description ?desc_fr. FILTER(LANG(?desc_fr) = "fr") }}
-
-        # Sitelinks for German, English, and French Wikipedia
-        OPTIONAL {{
-            ?sitelink_de schema:about wd:{wikidata_id};
-                        schema:isPartOf <https://de.wikipedia.org/>. 
-        }}
-        OPTIONAL {{
-            ?sitelink_en schema:about wd:{wikidata_id};
-                        schema:isPartOf <https://en.wikipedia.org/>. 
-        }}
-        OPTIONAL {{
-            ?sitelink_fr schema:about wd:{wikidata_id};
-                        schema:isPartOf <https://fr.wikipedia.org/>. 
-        }}
-
         # Instance Of (P31)
         OPTIONAL {{
             wd:{wikidata_id} p:P31 ?instanceOfStatement.
@@ -114,11 +90,26 @@ def wikidata_extractor(wikidata_id):
         # Subdivisions (P150)
         OPTIONAL {{ wd:{wikidata_id} wdt:P150 ?subdivision. }}
         
-        # Coat of Arms (P94)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P94 ?coatOfArms. }}
+        # Flag information (P163)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P163 ?flagInfo }}
+
+        # Flag image (P41)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P41 ?flagImage }}
+        
+        # Coat of Arms Info (P14659)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P14659 ?coatOfArmsInfo. }}
+
+        # Coat of Arms Image (P94)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P94 ?coatOfArmsImage. }}
         
         # Insignia (P395)
         OPTIONAL {{ wd:{wikidata_id} wdt:P395 ?insignia. }}
+
+        # Inception (P571)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P571 ?inception. }}
+
+        # Abolition (P576)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P576 ?abolition. }}
         
         # GND ID (P227)
         OPTIONAL {{ wd:{wikidata_id} wdt:P227 ?gnd. }}
@@ -132,11 +123,29 @@ def wikidata_extractor(wikidata_id):
         # OpenStreetMap Node ID (P11693)
         OPTIONAL {{ wd:{wikidata_id} wdt:P11693 ?openStreetMapNodeID. }}
 
-        # Inception (P571)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P571 ?inception. }}
+        # Labels in different languages
+        OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_de. FILTER(LANG(?label_de) = "de") }}
+        OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_en. FILTER(LANG(?label_en) = "en") }}
+        OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_fr. FILTER(LANG(?label_fr) = "fr") }}
 
-        # Abolition (P576)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P576 ?abolition. }}
+        # Descriptions in different languages
+        OPTIONAL {{ wd:{wikidata_id} schema:description ?desc_de. FILTER(LANG(?desc_de) = "de") }}
+        OPTIONAL {{ wd:{wikidata_id} schema:description ?desc_en. FILTER(LANG(?desc_en) = "en") }}
+        OPTIONAL {{ wd:{wikidata_id} schema:description ?desc_fr. FILTER(LANG(?desc_fr) = "fr") }}
+
+        # Sitelinks for German, English, and French Wikipedia
+        OPTIONAL {{
+            ?sitelink_de schema:about wd:{wikidata_id};
+                        schema:isPartOf <https://de.wikipedia.org/>. 
+        }}
+        OPTIONAL {{
+            ?sitelink_en schema:about wd:{wikidata_id};
+                        schema:isPartOf <https://en.wikipedia.org/>. 
+        }}
+        OPTIONAL {{
+            ?sitelink_fr schema:about wd:{wikidata_id};
+                        schema:isPartOf <https://fr.wikipedia.org/>. 
+        }}
     }}
     ORDER BY ?instanceOfData ?adminUnitData ?areaData
     """
@@ -152,7 +161,10 @@ def wikidata_extractor(wikidata_id):
         "coordinates": [],
         "population": [],
         "area": [],
-        "coat_of_arms": [],
+        "flag_info": [],
+        "flag_image": [],
+        "coat_of_arms_info": [],
+        "coat_of_arms_image": [],
         "insignia": [],
         "inception": [],
         "abolition": [],
@@ -177,7 +189,10 @@ def wikidata_extractor(wikidata_id):
         coordinates = entry['coordinates']['value'] if 'coordinates' in entry else "NULL"
         population = entry['populationData']['value'] if 'populationData' in entry else "NULL"
         area = entry['areaData']['value'] if 'areaData' in entry else "NULL"
-        coat_of_arms = entry['coatOfArms']['value'] if 'coatOfArms' in entry else "NULL"
+        flag_info = entry['flagInfo']['value'] if 'flagInfo' in entry else "NULL"
+        flag_image = entry['flagImage']['value'] if 'flagImage' in entry else "NULL"
+        coat_of_arms_info = entry['coatOfArmsInfo']['value'] if 'coatOfArmsInfo' in entry else "NULL"
+        coat_of_arms_image = entry['coatOfArmsImage']['value'] if 'coatOfArmsImage' in entry else "NULL"
         insignia = entry['insignia']['value'] if 'insignia' in entry else "NULL"
         inception = entry['inception']['value'] if 'inception' in entry else "NULL"
         abolition = entry['abolition']['value'] if 'abolition' in entry else "NULL"
@@ -201,7 +216,10 @@ def wikidata_extractor(wikidata_id):
             "coordinates": coordinates,
             "population": population,
             "area": area,
-            "coat_of_arms": coat_of_arms,
+            "flag_info": flag_info,
+            "flag_image": flag_image,
+            "coat_of_arms_info": coat_of_arms_info,
+            "coat_of_arms_image": coat_of_arms_image,            
             "insignia": insignia,
             "inception": inception,
             "abolition": abolition,
