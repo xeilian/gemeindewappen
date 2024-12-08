@@ -4,8 +4,8 @@ def wikidata_extractor(wikidata_id):
     SELECT DISTINCT 
         ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?populationData 
         ?subdivision ?flagInfo ?flagImage ?coatOfArmsInfo ?coatOfArmsImage ?mapImage ?insignia ?postalCode ?inception ?abolition ?partnerCities 
-        ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?germanDistrictKey ?germanMunicipalityKey ?germanRegionalKey 
-        ?label_de ?label_en ?label_fr ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
+        ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr 
+        ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
     WHERE {{
         # Instance Of (P31)
         OPTIONAL {{
@@ -132,15 +132,6 @@ def wikidata_extractor(wikidata_id):
         # OpenStreetMap Node ID (P11693)
         OPTIONAL {{ wd:{wikidata_id} wdt:P11693 ?openStreetMapNodeID. }}
 
-        # German District Key (P440)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P440 ?germanDistrictKey. }}
-
-        # German Municipality Key (P439)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P439 ?germanMunicipalityKey. }}
-
-        # German Regional Key (P1388)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P1388 ?germanRegionalKey. }}
-
         # Labels in different languages
         OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_de. FILTER(LANG(?label_de) = "de") }}
         OPTIONAL {{ wd:{wikidata_id} rdfs:label ?label_en. FILTER(LANG(?label_en) = "en") }}
@@ -196,9 +187,6 @@ def wikidata_extractor(wikidata_id):
         "geonames_id": [],
         "openstreetmap_rel_id": [],
         "openstreetmap_node_id": [],
-        "german_district_key": [],
-        "german_municipality_key": [],
-        "german_regional_key": [],
         "label_de": [],
         "label_en": [],
         "label_fr": [],
@@ -232,9 +220,6 @@ def wikidata_extractor(wikidata_id):
         geonames_id = entry['geonamesID']['value'] if 'geonamesID' in entry else "NULL"
         openstreetmap_rel_id = entry['openStreetMapRelationID']['value'] if 'openStreetMapRelationID' in entry else "NULL"
         openstreetmap_node_id = entry['openStreetMapNodeID']['value'] if 'openStreetMapNodeID' in entry else "NULL"
-        german_district_key = entry['germanDistrictKey']['values'] if 'germanDistrictKey' in entry else "NULL"
-        german_municipality_key = entry['germanMunicipalityKey']['values'] if 'germanMunicipalityKey' in entry else "NULL"
-        german_regional_key = entry['germanRegionalKey']['values'] if 'germanRegionalKey' in entry else "NULL"
         label_de = entry['label_de']['value'] if 'label_de' in entry else "NULL"
         label_en = entry['label_en']['value'] if 'label_en' in entry else "NULL"
         label_fr = entry['label_fr']['value'] if 'label_fr' in entry else "NULL"
@@ -268,9 +253,6 @@ def wikidata_extractor(wikidata_id):
             "geonames_id": geonames_id,
             "openstreetmap_rel_id": openstreetmap_rel_id,
             "openstreetmap_node_id": openstreetmap_node_id,
-            "german_district_key": german_district_key,
-            "german_municipality_key": german_municipality_key,
-            "german_regional_key": german_regional_key,
             "label_de": label_de,
             "label_en": label_en,
             "label_fr": label_fr,
