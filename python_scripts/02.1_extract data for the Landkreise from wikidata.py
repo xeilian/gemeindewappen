@@ -11,6 +11,7 @@ with open(input_file, mode="r", encoding="utf-8", newline="") as inputfile:
             print(f"Warnung: Ungültige Zeile {i + 1} übersprungen: {row}")
             continue
         wikidata_id = row[2]
+        failed_ids = []
         print(f"Verarbeite Wikidata-ID: {wikidata_id}")
         try:
             data = wikidata_extractor(wikidata_id)
@@ -30,3 +31,6 @@ with open(input_file, mode="r", encoding="utf-8", newline="") as inputfile:
                 print(f"Keine Daten für Wikidata-ID: {wikidata_id}")
         except Exception as e:
             print(f"Fehler beim Abrufen der Daten für {wikidata_id}: {e}")
+            failed_ids.append(wikidata_id)
+    
+print(failed_ids)

@@ -156,6 +156,7 @@ def wikidata_extractor(wikidata_id):
     results = sparql.query().convert()
 
     data = {
+        "wikidata_id": [],
         "instance_of": [],
         "admin_unit": [],
         "coordinates": [],
@@ -211,6 +212,7 @@ def wikidata_extractor(wikidata_id):
         sitelink_fr = entry['sitelink_fr']['value'] if 'sitelink_fr' in entry else "NULL"
 
         dict_temp = {
+            "wikidata_id": wikidata_id,
             "instance_of": instance_of,
             "admin_unit": admin_unit,
             "coordinates": coordinates,
