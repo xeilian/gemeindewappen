@@ -1,7 +1,7 @@
 import csv, time
 from wikidata_extractor import wikidata_extractor
 
-input_file = ["wikidata_output/landkreise_deutschland_raw.csv",2] # [input_file, row number of wikidata_id]
+input_file = ["wikidata_output/dummy_data.csv",2]#landkreise_deutschland_raw.csv",2] # [input_file, row number of wikidata_id]
 output_file = "wikidata_output/landkreise_deutschland_with_data.csv"
 
 with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
@@ -15,6 +15,7 @@ with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
         print(f"Verarbeite Wikidata-ID: {wikidata_id}")
         try:
             data = wikidata_extractor(wikidata_id)
+            print(data)
             if data:
                 with open(output_file, mode="a", encoding="utf-8", newline="") as outputfile:
                     writer = csv.DictWriter(outputfile, fieldnames=data.keys())
@@ -23,7 +24,12 @@ with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
                         writer.writeheader()
                     row = {}
                     for key, values in data.items():
-                        row[key] = f'{', '.join(values)}'
+                        if isinstance(values, dict):
+                            row[key] = str(values)
+                        elif isinstance(values, list):
+                            row[key] = f'{", ".join(map(str, values))}'
+                        else:
+                            row[key] = f'{str(values)}'
                     writer.writerow(row)
                     time.sleep(0)
                     print(f"Ergebnisse in {output_file} gespeichert.")
@@ -34,6 +40,6 @@ with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
             failed_ids.append(wikidata_id)
             with open('wikidata_output/failed_ids.csv', 'a', newline='') as csvfile:
                 writer_failed = csv.writer(csvfile)
-                writer_failed.writerow([wikidata_extractor])
+                writer_failed.writerow([wikidata_id])
     
-print(failed_ids)
+print("Failed IDs: ", failed_ids)

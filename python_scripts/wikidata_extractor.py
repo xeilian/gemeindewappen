@@ -91,10 +91,10 @@ def wikidata_extractor(wikidata_id):
         OPTIONAL {{ wd:{wikidata_id} wdt:P150 ?subdivision. }}
         
         # Flag information (P163)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P163 ?flagInfo }}
+        OPTIONAL {{ wd:{wikidata_id} wdt:P163 ?flagInfo. }}
 
         # Flag image (P41)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P41 ?flagImage }}
+        OPTIONAL {{ wd:{wikidata_id} wdt:P41 ?flagImage. }}
         
         # Coat of Arms Info (P14659)
         OPTIONAL {{ wd:{wikidata_id} wdt:P14659 ?coatOfArmsInfo. }}
@@ -118,7 +118,7 @@ def wikidata_extractor(wikidata_id):
         OPTIONAL {{ wd:{wikidata_id} wdt:P576 ?abolition. }}
         
         # Partner Cities (P190)
-        OPTIONAL {{ wd:{wikidata_extractor} wdt:P190 ?partnerCities. }}
+        OPTIONAL {{ wd:{wikidata_id} wdt:P190 ?partnerCities. }}
 
         # GND ID (P227)
         OPTIONAL {{ wd:{wikidata_id} wdt:P227 ?gnd. }}
