@@ -47,26 +47,6 @@ def wikidata_extractor(wikidata_id):
             ) AS ?adminUnitData
         )
 
-        # Area (P2046)
-        OPTIONAL {{
-            wd:{wikidata_id} p:P2046 ?areaStatement.
-            ?areaStatement ps:P2046 ?area.
-            OPTIONAL {{ ?areaStatement pq:P585 ?areaStartDate. }}  # Area date
-        }}
-        BIND (
-            IF(BOUND(?area),
-              CONCAT(STR(?area),
-                      IF(BOUND(?areaStartDate),
-                        CONCAT(" (", STR(?areaStartDate), ")"),
-                        "")
-                      ),
-              ""
-            ) AS ?areaData
-        )
-
-        # Capital (P36)
-        OPTIONAL {{ wd:{wikidata_id} wdt:P36 ?capital. }}
-
         # Coordinates (P625)
         OPTIONAL {{ wd:{wikidata_id} wdt:P625 ?coordinates. }}
         
@@ -89,7 +69,27 @@ def wikidata_extractor(wikidata_id):
 
         # Subdivisions (P150)
         OPTIONAL {{ wd:{wikidata_id} wdt:P150 ?subdivision. }}
-        
+
+        # Area (P2046)
+        OPTIONAL {{
+            wd:{wikidata_id} p:P2046 ?areaStatement.
+            ?areaStatement ps:P2046 ?area.
+            OPTIONAL {{ ?areaStatement pq:P585 ?areaStartDate. }}  # Area date
+        }}
+        BIND (
+            IF(BOUND(?area),
+              CONCAT(STR(?area),
+                      IF(BOUND(?areaStartDate),
+                        CONCAT(" (", STR(?areaStartDate), ")"),
+                        "")
+                      ),
+              ""
+            ) AS ?areaData
+        )
+
+        # Capital (P36)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P36 ?capital. }}
+
         # Flag information (P163)
         OPTIONAL {{ wd:{wikidata_id} wdt:P163 ?flagInfo. }}
 
@@ -170,7 +170,9 @@ def wikidata_extractor(wikidata_id):
         "admin_unit": [],
         "coordinates": [],
         "population": [],
+        "subdivisions": [],
         "area": [],
+        "capital": [],
         "flag_info": [],
         "flag_image": [],
         "coat_of_arms_info": [],
@@ -201,7 +203,9 @@ def wikidata_extractor(wikidata_id):
         admin_unit = entry['adminUnitData']['value'] if 'adminUnitData' in entry else "NULL"
         coordinates = entry['coordinates']['value'] if 'coordinates' in entry else "NULL"
         population = entry['populationData']['value'] if 'populationData' in entry else "NULL"
+        subdivisions = entry['subdivision']['value'] if 'subdivision' in entry else "NULL"
         area = entry['areaData']['value'] if 'areaData' in entry else "NULL"
+        capital = entry['capital']['value'] if 'capital' in entry else "NULL"
         flag_info = entry['flagInfo']['value'] if 'flagInfo' in entry else "NULL"
         flag_image = entry['flagImage']['value'] if 'flagImage' in entry else "NULL"
         coat_of_arms_info = entry['coatOfArmsInfo']['value'] if 'coatOfArmsInfo' in entry else "NULL"
@@ -232,7 +236,9 @@ def wikidata_extractor(wikidata_id):
             "admin_unit": admin_unit,
             "coordinates": coordinates,
             "population": population,
+            "subdivisions": subdivisions,
             "area": area,
+            "capital": capital,
             "flag_info": flag_info,
             "flag_image": flag_image,
             "coat_of_arms_info": coat_of_arms_info,
