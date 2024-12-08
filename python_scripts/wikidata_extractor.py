@@ -3,9 +3,9 @@ def wikidata_extractor(wikidata_id):
     sparql_query = f"""
     SELECT DISTINCT 
         ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?populationData 
-        ?subdivision ?flagInfo ?flagImage ?coatOfArmsInfo ?coatOfArmsImage ?insignia ?gnd ?geonamesID 
-        ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr ?desc_de ?desc_en ?desc_fr 
-        ?sitelink_de ?sitelink_en ?sitelink_fr ?inception ?abolition
+        ?subdivision ?flagInfo ?flagImage ?coatOfArmsInfo ?coatOfArmsImage ?mapImage ?insignia ?postalCode ?inception ?abolition ?partnerCities 
+        ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr 
+        ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
     WHERE {{
         # Instance Of (P31)
         OPTIONAL {{
@@ -102,8 +102,14 @@ def wikidata_extractor(wikidata_id):
         # Coat of Arms Image (P94)
         OPTIONAL {{ wd:{wikidata_id} wdt:P94 ?coatOfArmsImage. }}
         
+        # Map Image (P242)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P242 ?mapImage. }}
+        
         # Insignia (P395)
         OPTIONAL {{ wd:{wikidata_id} wdt:P395 ?insignia. }}
+
+        # Postal Code (P281)
+        OPTIONAL {{ wd:{wikidata_id} wdt:P281 ?postalCode. }}
 
         # Inception (P571)
         OPTIONAL {{ wd:{wikidata_id} wdt:P571 ?inception. }}
@@ -111,6 +117,9 @@ def wikidata_extractor(wikidata_id):
         # Abolition (P576)
         OPTIONAL {{ wd:{wikidata_id} wdt:P576 ?abolition. }}
         
+        # Partner Cities (P190)
+        OPTIONAL {{ wd:{wikidata_extractor} wdt:P190 ?partnerCities. }}
+
         # GND ID (P227)
         OPTIONAL {{ wd:{wikidata_id} wdt:P227 ?gnd. }}
         
@@ -166,9 +175,12 @@ def wikidata_extractor(wikidata_id):
         "flag_image": [],
         "coat_of_arms_info": [],
         "coat_of_arms_image": [],
+        "map_image": [],
         "insignia": [],
+        "postal_code": [],
         "inception": [],
         "abolition": [],
+        "partner_cities": [],
         "gnd": [],
         "geonames_id": [],
         "openstreetmap_rel_id": [],
@@ -194,9 +206,12 @@ def wikidata_extractor(wikidata_id):
         flag_image = entry['flagImage']['value'] if 'flagImage' in entry else "NULL"
         coat_of_arms_info = entry['coatOfArmsInfo']['value'] if 'coatOfArmsInfo' in entry else "NULL"
         coat_of_arms_image = entry['coatOfArmsImage']['value'] if 'coatOfArmsImage' in entry else "NULL"
+        map_image = entry['mapImage']['value'] if 'mapImage' in entry else "NULL"
         insignia = entry['insignia']['value'] if 'insignia' in entry else "NULL"
+        postal_code = entry['postalCode']['value'] if 'postalCode' in entry else "NULL"
         inception = entry['inception']['value'] if 'inception' in entry else "NULL"
         abolition = entry['abolition']['value'] if 'abolition' in entry else "NULL"
+        partner_cities = entry['partnerCities'] if 'partnerCities' in entry else "NULL"
         gnd = entry['gnd']['value'] if 'gnd' in entry else "NULL"
         geonames_id = entry['geonamesID']['value'] if 'geonamesID' in entry else "NULL"
         openstreetmap_rel_id = entry['openStreetMapRelationID']['value'] if 'openStreetMapRelationID' in entry else "NULL"
@@ -221,10 +236,13 @@ def wikidata_extractor(wikidata_id):
             "flag_info": flag_info,
             "flag_image": flag_image,
             "coat_of_arms_info": coat_of_arms_info,
-            "coat_of_arms_image": coat_of_arms_image,            
+            "coat_of_arms_image": coat_of_arms_image,        
+            "map_image": map_image,
             "insignia": insignia,
+            "postal_code": postal_code,
             "inception": inception,
             "abolition": abolition,
+            "partner_cities": partner_cities,
             "gnd": gnd,
             "geonames_id": geonames_id,
             "openstreetmap_rel_id": openstreetmap_rel_id,
