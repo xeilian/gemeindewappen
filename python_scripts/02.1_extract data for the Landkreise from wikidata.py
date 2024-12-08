@@ -1,16 +1,16 @@
 import csv, time
 from wikidata_extractor import wikidata_extractor
 
-input_file = "wikidata_output/landkreise_deutschland_raw.csv"
-output_file = "landkreise_deutschland_with_data.csv"
+input_file = ["wikidata_output/dummy_data.csv",2] # landkreise_deutschland_raw.csv" # [input_file, row number of wikidata_id]
+output_file = "wikidata_output/landkreise_deutschland_with_data.csv"
 
-with open(input_file, mode="r", encoding="utf-8", newline="") as inputfile:
+with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
     reader = csv.reader(inputfile)
     for i, row in enumerate(reader):
         if len(row) < 3:
             print(f"Warnung: Ungültige Zeile {i + 1} übersprungen: {row}")
             continue
-        wikidata_id = row[2]
+        wikidata_id = row[input_file[1]]
         failed_ids = []
         print(f"Verarbeite Wikidata-ID: {wikidata_id}")
         try:
@@ -32,5 +32,8 @@ with open(input_file, mode="r", encoding="utf-8", newline="") as inputfile:
         except Exception as e:
             print(f"Fehler beim Abrufen der Daten für {wikidata_id}: {e}")
             failed_ids.append(wikidata_id)
+            with open('wikidata_output/failed_ids.csv', 'a', newline='') as csvfile:
+                writer_failed = csv.writer(csvfile)
+                writer_failed.writerow([wikidata_extractor])
     
 print(failed_ids)
