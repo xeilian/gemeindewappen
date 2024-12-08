@@ -215,7 +215,7 @@ def wikidata_extractor(wikidata_id):
         postal_code = entry['postalCode']['value'] if 'postalCode' in entry else "NULL"
         inception = entry['inception']['value'] if 'inception' in entry else "NULL"
         abolition = entry['abolition']['value'] if 'abolition' in entry else "NULL"
-        partner_cities = entry['partnerCities'] if 'partnerCities' in entry else "NULL"
+        partner_cities = entry['partnerCities']['value'] if 'partnerCities' in entry else "NULL"
         gnd = entry['gnd']['value'] if 'gnd' in entry else "NULL"
         geonames_id = entry['geonamesID']['value'] if 'geonamesID' in entry else "NULL"
         openstreetmap_rel_id = entry['openStreetMapRelationID']['value'] if 'openStreetMapRelationID' in entry else "NULL"

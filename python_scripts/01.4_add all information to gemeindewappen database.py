@@ -93,12 +93,15 @@ CREATE TABLE IF NOT EXISTS landkreise (
 );
 ''')
 
-
-
 # sql: daten einfügen
+wikidata_ids = []
 for index, row in df.iterrows():
     try:
         wikidata_id = row['wikidata_id']
+        if wikidata_id in wikidata_ids:
+            continue
+        else:
+            wikidata_ids.append(wikidata_id)
         instance_of = row['instance_of']
         admin_unit = row['admin_unit']
         coordinates = row['coordinates']
@@ -141,7 +144,8 @@ for index, row in df.iterrows():
                 if area_value is not None:
                     cur.execute("INSERT INTO area (wikidata_id, year, area_value) VALUES (?, ?, ?)",
                                 (wikidata_id, year, area_value))
-            area_id = cur.lastrowid
+                    area_id = cur.lastrowid
+                    area_ids.append(area_id)
         else:
             area_id = None
 
