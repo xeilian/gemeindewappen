@@ -4,3 +4,5 @@ svg_color_extraction_test1.py
 python_scripts/__pycache__
 add all information to gemeindewappen database.py
 dummy_data2.csv
+02.1_get wikidata tags for all german gemeinden and ortsteile.py
+ALLGEMEINE_NOTIZEN.md

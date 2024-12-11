@@ -1,6 +1,6 @@
+import csv
 from SPARQLWrapper import SPARQLWrapper, JSON
 
-# Setze die URL für den Wikidata SPARQL-Endpunkt
 sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
 
 # Liste der Wikidata-IDs der Bundesländer
@@ -43,7 +43,7 @@ def extract_alle_gemeinden(bundesland_wikidata_id):
     try:
         results = sparql.query().convert()
 
-        with open(f"{bundesland_id}_municipalities.csv", mode="w", newline="", encoding="utf-8") as file:
+        with open(f"{bundesland_wikidata_id}_municipalities.csv", mode="w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["Item", "Label"])
             
@@ -51,4 +51,5 @@ def extract_alle_gemeinden(bundesland_wikidata_id):
                 item = result['item']['value']
                 label = result['itemLabel']['value']
                 writer.writerow([item, label])
-
+    except:
+        print(f"{bundesland_wikidata_id} fehlgeschlagen!")
