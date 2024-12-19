@@ -1,6 +1,5 @@
 import sqlite3
 import re
-import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -21,6 +20,7 @@ def extract_wikidata_ids(table):
     conn.close()
 
     return wikidata_ids_list
+
 
 def fetch_wikidata_name():
     '''
@@ -53,8 +53,10 @@ def fetch_wikidata_name():
     print(types)
     return types
 
+
 def upload_into_sql():
-    data = fetch_wikidata_name()
+    #data = fetch_wikidata_name()
+    data = [['Q106658', 'Landkreis'], ['Q5283531', 'Landkreis in Preußen'], ['Q56754679', 'Bezirksamt in Bayern'], ['Q61980413', 'Landkreis in Hessen'], ['Q85482556', 'Landkreis in Bayern'], ['Q20738945', 'Landkreis in Thüringen'], ['Q17302772', 'Landkreis in Sachsen-Anhalt'], ['Q61818979', 'Landkreis im Saarland'], ['Q106517174', 'Optionskommune'], ['Q61708063', 'Landkreis in Sachsen'], ['Q61793460', 'Landkreis in Brandenburg'], ['Q20738811', 'Kreis in Nordrhein-Westfalen'], ['Q837766', 'Gebietskörperschaft'], ['Q1780389', 'Kommunalverband besonderer Art'], ['Q15849374', 'Kreis der DDR'], ['Q85332736', 'Landkreis in Niedersachsen'], ['Q61856889', 'Kreis in Schleswig-Holstein'], ['Q85493040', 'Landkreis in Rheinland-Pfalz'], ['Q192611', 'Wahlkreis'], ['Q13221722', 'Verwaltungseinheit dritter Ebene']]
     conn = sqlite3.connect('gemeindewappen.db')
     cur = conn.cursor()
 
@@ -67,12 +69,10 @@ def upload_into_sql():
 
     for i in data:
         print([i[0], i[1]])
-        cur.execute("INSERT INTO types (wikidata_id, name) VALUES (?, ?)",
-                    (i[0], i[1]))
-        
-        
-upload_into_sql()
+        cur.execute("INSERT INTO types (wikidata_id, name) VALUES (?, ?)", (i[0], i[1]))
 
-                
+    conn.commit()
+    conn.close()
 
-
+if __name__ == "__main__":
+    upload_into_sql()
