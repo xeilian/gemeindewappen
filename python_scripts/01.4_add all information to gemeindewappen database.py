@@ -8,7 +8,7 @@ def extract_year(date_str):
         return match.group(1) if match else None
     return None
 
-csv_file = "wikidata_output/landkreise_deutschland_with_data.csv"
+csv_file = "wikidata_output/dummy_data.csv"
 df = pd.read_csv(csv_file)
 
 for column in df.columns:

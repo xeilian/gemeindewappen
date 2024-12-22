@@ -25,16 +25,20 @@ wikidata_bundeslaender = {
 
 bundesland_wikidata_ids = wikidata_bundeslaender.keys()
 
-def extract_alle_gemeinden(bundesland_wikidata_id):
+def extract_alle_landkreise(bundesland_wikidata_id):
     sparql_query = f"""
     SELECT DISTINCT ?item ?itemLabel WHERE {{
-        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }}
+    SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }}
+    {{
+        SELECT DISTINCT ?item WHERE {{
         ?item p:P31 ?statement0.
-        ?statement0 (ps:P31/(wdt:P279*)) wd:Q262166.
+        ?statement0 (ps:P31/(wdt:P279*)) wd:Q106658.
         ?item p:P131 ?statement1.
         ?statement1 (ps:P131/(wdt:P131*)) wd:{bundesland_wikidata_id}.
+        }}
+        LIMIT 100
     }}
-    LIMIT 100
+    }}
     """
     
     sparql.setQuery(sparql_query)
@@ -43,7 +47,7 @@ def extract_alle_gemeinden(bundesland_wikidata_id):
     try:
         results = sparql.query().convert()
 
-        with open(f"{bundesland_wikidata_id}_municipalities.csv", mode="w", newline="", encoding="utf-8") as file:
+        with open(f"{bundesland_wikidata_id}_landkreise.csv", mode="w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["Item", "Label"])
             

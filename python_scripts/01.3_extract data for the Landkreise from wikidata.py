@@ -1,5 +1,5 @@
 import csv, time
-from python_scripts.wikidata_extractor_v1 import wikidata_extractor
+from wikidata_extractor_v1 import wikidata_extractor
 
 input_file = ["wikidata_output/dummy_data.csv", 2]#/landkreise_deutschland_raw.csv",2]   # [input_file, row number of wikidata_id]
 output_file = "wikidata_output/landkreise_deutschland_with_data.csv"
