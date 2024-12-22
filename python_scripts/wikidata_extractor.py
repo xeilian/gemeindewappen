@@ -4,9 +4,8 @@ def wikidata_extractor(mode, wikidata_id):
 
     The input is twofold:
         * First, it is important to specify the mode of extraction. There are two types of modes:
-            - is_instance: the output should contain extracted information of only the one admitted entity (wikidata_id). This type has the property id 'P31'.
-            - lies in: the output should contain extracted information of all entities that lie inside of a larger administrative entity (like a region or Landkreis). 
-              This type has the property id 'P131'.
+            - 's', extraction of the given entity itself: the output should contain extracted information of only the one admitted entity (wikidata_id). This type has the property id 'P31'.
+            - 'l', extraction of all entities inside of given entity: the output should contain extracted information of all entities that lie inside of a larger administrative entity (like a region or Landkreis).
         * Secondly, of course, the wikidata_id of the entity you'd like to extract.
     
     The output is a large list of all records that are associated with one of the categories and are a smaller location entity within the definied larger entity. 
@@ -18,9 +17,13 @@ def wikidata_extractor(mode, wikidata_id):
     from SPARQLWrapper import SPARQLWrapper, JSON
     from collections import defaultdict
 
-    # check: Is the mode correct (P31 or P131)?
-    if mode != "P31" or mode != "P131":
-        return print("Error: Wrong query. Mode input should either be P31 or P131.")
+    # check: Is the mode correctly stated (s or l?)?
+    if mode == 's':
+        mode_in_query = f"BIND(wd:{wikidata_id} AS ?id)"
+    elif mode == 'l':
+        mode_in_query = f"?id wdt:P131 wd:{wikidata_id}."
+    else:
+        return print("Error: Wrong query. Mode input should either be 's' for self-extraction or 'l' for extraction of all entities inside of bigger entity.")
 
     sparql_query = f"""
     SELECT DISTINCT ?id
@@ -29,7 +32,7 @@ def wikidata_extractor(mode, wikidata_id):
           ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr 
           ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
     WHERE {{
-      ?id wdt:{mode} wd:{wikidata_id}.
+      {mode_in_query}
       {{
         ?id p:P31 ?instanceOfStatement.
         ?instanceOfStatement ps:P31 ?instanceOf.
@@ -198,4 +201,7 @@ def wikidata_extractor(mode, wikidata_id):
 
     return dict(sorted_data)
 
-print(wikidata_extractor("P31", "Q3232"))
+# for one-time inputs
+mode = input("Mode? ")
+wikidata_id = input("ID? ")
+print(wikidata_extractor(mode, wikidata_id))
