@@ -1,13 +1,26 @@
-def wikidata_extractor(wikidata_id):
-    from SPARQLWrapper import SPARQLWrapper, JSON
-    from collections import defaultdict
+def wikidata_extractor(mode, wikidata_id):
     '''
     This function extracts the values of a number of different categories from place data sets in wikidata.
-    The input is the wikidata id from a larger administrative entity (like a region or Landkreis).
-    The output is a large list of all records that are associated with one of the categories and are a smaller location entity within the definied larger entity.
+
+    The input is twofold:
+        * First, it is important to specify the mode of extraction. There are two types of modes:
+            - is_instance: the output should contain extracted information of only the one admitted entity (wikidata_id). This type has the property id 'P31'.
+            - lies in: the output should contain extracted information of all entities that lie inside of a larger administrative entity (like a region or Landkreis). 
+              This type has the property id 'P131'.
+        * Secondly, of course, the wikidata_id of the entity you'd like to extract.
+    
+    The output is a large list of all records that are associated with one of the categories and are a smaller location entity within the definied larger entity. 
     In an afterstep it sorts the data and returns it as a sorted dictionary.
     This function is a improved second version of the initial wikidata_extractor. 
     '''
+
+    # imports
+    from SPARQLWrapper import SPARQLWrapper, JSON
+    from collections import defaultdict
+
+    # check: Is the mode correct (P31 or P131)?
+    if mode != "P31" or mode != "P131":
+        return print("Error: Wrong query. Mode input should either be P31 or P131.")
 
     sparql_query = f"""
     SELECT DISTINCT ?id
@@ -16,9 +29,7 @@ def wikidata_extractor(wikidata_id):
           ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr 
           ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
     WHERE {{
-      ?id wdt:P131 wd:{wikidata_id}.
-      
-      # UNION-Blöcke: Jeder Block ist ein separates Muster
+      ?id wdt:{mode} wd:{wikidata_id}.
       {{
         ?id p:P31 ?instanceOfStatement.
         ?instanceOfStatement ps:P31 ?instanceOf.
@@ -176,7 +187,7 @@ def wikidata_extractor(wikidata_id):
         id_value = entry['id']['value']
         for key, value in entry.items():
             if key != 'id' and key in categories:
-                sorted_data[id_value][key].append(value['value'])  # Füge Werte zur entsprechenden Kategorie hinzu
+                sorted_data[id_value][key].append(value['value'])
 
     for id_value, attributes in sorted_data.items():
         for key, values in attributes.items():
@@ -187,6 +198,4 @@ def wikidata_extractor(wikidata_id):
 
     return dict(sorted_data)
 
-
-#wikidata_extractor("Q8177")
-
+print(wikidata_extractor("P31", "Q3232"))
