@@ -5,7 +5,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 
 def extract_wikidata_ids(table):
     '''
-    Extrahiert Wikidata-IDs aus der Tabelle und gibt eine Liste von IDs zurück.
+    Extracts Wikidata-IDs from the table. The output is a list of IDs.
     '''
     conn = sqlite3.connect('gemeindewappen.db')
     cursor = conn.cursor()
@@ -24,7 +24,7 @@ def extract_wikidata_ids(table):
 
 def fetch_wikidata_name():
     '''
-    Ruft den Namen der Wikidata-ID über die Wikidata API ab.
+    Queries the wikidata id via the wikidata API.
     '''
 
     wikidata_ids = extract_wikidata_ids("landkreise")

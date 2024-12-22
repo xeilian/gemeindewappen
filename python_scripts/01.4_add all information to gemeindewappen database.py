@@ -8,7 +8,7 @@ def extract_year(date_str):
         return match.group(1) if match else None
     return None
 
-csv_file = "wikidata_output/dummy_data.csv"
+csv_file = "wikidata_output/landkreise_deutschland_with_data.csv"
 df = pd.read_csv(csv_file)
 
 for column in df.columns:
@@ -124,7 +124,7 @@ for index, row in df.iterrows():
                                 (wikidata_id, year, population_value))
                     population_ids.append(cur.lastrowid)
                 except (ValueError, AttributeError):
-                    print(f"Fehler in Population-Daten: {val}")
+                    print(f"Error in population data: {val}")
 
         # areadaten
         area_ids = []
@@ -175,9 +175,9 @@ for index, row in df.iterrows():
               row['capital'], row['flag_info'], row['flag_image'], row['map_image'], row['insignia'], row['postal_code'], row['inception'],
               row['abolition'], row['partner_cities'], normdaten_id, bundesland))
     except Exception as e:
-        print(f"Fehler in Zeile {index}: {e}")
+        print(f"Error in line {index}: {e}")
 
 conn.commit()
 conn.close()
 
-print("Daten erfolgreich verarbeitet und in die Datenbank eingefügt!")
+print("The data was processed successfully and inserted into the database!")

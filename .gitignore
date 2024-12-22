@@ -6,4 +6,4 @@ add all information to gemeindewappen database.py
 dummy_data2.csv
 02.1_get wikidata tags for all german bundesländer.py
 ALLGEMEINE_NOTIZEN.md
-02.1_extract data from the german municipalities.py
+02.1_extract data from the german 'kreisfreie' cities.py

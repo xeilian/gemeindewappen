@@ -56,4 +56,4 @@ def extract_alle_landkreise(bundesland_wikidata_id):
                 label = result['itemLabel']['value']
                 writer.writerow([item, label])
     except:
-        print(f"{bundesland_wikidata_id} fehlgeschlagen!")
+        print(f"Error: {bundesland_wikidata_id} failed!")

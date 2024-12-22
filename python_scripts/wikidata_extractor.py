@@ -7,7 +7,7 @@ def wikidata_extractor(mode, wikidata_id):
             - 's', extraction of the given entity itself: the output should contain extracted information of only the one admitted entity (wikidata_id).
             - 'l', extraction of all entities inside of given entity: the output should contain extracted information of all entities that lie inside of a larger administrative entity (like a region or Landkreis).
             - 'p', extraction of all entities that are of a given type: e.g. extract all data from entities that have the property 'urban municipalities'
-        * Secondly, of course, the wikidata_id of the entity you'd like to extract.
+        * Secondly, of course, the wikidata_id of the entity you'd like to extract, or in the case of mode 'p' the property.
     
     The output is a large list of all records that are associated with one of the categories and are a smaller location entity within the definied larger entity. 
     In an afterstep it sorts the data and returns it as a sorted dictionary.
