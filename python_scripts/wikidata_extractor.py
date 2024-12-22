@@ -3,9 +3,10 @@ def wikidata_extractor(mode, wikidata_id):
     This function extracts the values of a number of different categories from place data sets in wikidata.
 
     The input is twofold:
-        * First, it is important to specify the mode of extraction. There are two types of modes:
-            - 's', extraction of the given entity itself: the output should contain extracted information of only the one admitted entity (wikidata_id). This type has the property id 'P31'.
+        * First, it is important to specify the mode of extraction. There are three types of modes:
+            - 's', extraction of the given entity itself: the output should contain extracted information of only the one admitted entity (wikidata_id).
             - 'l', extraction of all entities inside of given entity: the output should contain extracted information of all entities that lie inside of a larger administrative entity (like a region or Landkreis).
+            - 'p', extraction of all entities that are of a given type: e.g. extract all data from entities that have the property 'urban municipalities'
         * Secondly, of course, the wikidata_id of the entity you'd like to extract.
     
     The output is a large list of all records that are associated with one of the categories and are a smaller location entity within the definied larger entity. 
@@ -22,8 +23,10 @@ def wikidata_extractor(mode, wikidata_id):
         mode_in_query = f"BIND(wd:{wikidata_id} AS ?id)"
     elif mode == 'l':
         mode_in_query = f"?id wdt:P131 wd:{wikidata_id}."
+    elif mode == 'p':
+        mode_in_query = f"?id wdt:P31 wd:{wikidata_id}."
     else:
-        return print("Error: Wrong query. Mode input should either be 's' for self-extraction or 'l' for extraction of all entities inside of bigger entity.")
+        return print("Error: Wrong query. Mode input should either be 's' for self-extraction, 'l' for extraction of all entities inside of bigger entity or 'g' for extraction of all entities that have a given property.")
 
     sparql_query = f"""
     SELECT DISTINCT ?id
