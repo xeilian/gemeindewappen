@@ -1,5 +1,6 @@
 def wikidata_extractor(wikidata_id):
     from SPARQLWrapper import SPARQLWrapper, JSON
+    from collections import defaultdict
     '''
     This function extracts the values of a number of different categories from place data sets in wikidata.
     The input is the wikidata id from a larger administrative entity (like a region or Landkreis).
@@ -157,7 +158,35 @@ def wikidata_extractor(wikidata_id):
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
 
-    return results
-    
+    # Caching the output?
+    #output_file = "wikidata_extractor_temp_save.txt"
+    #with open(output_file, "w", encoding="utf-8") as file:
+    #    file.write(str(results))
 
-print(wikidata_extractor("Q8177"))
+    # Sorting the data and transforming it into a usuable dictionary
+    categories = ['instanceOfData', 'adminUnitData', 'areaData', 'capital', 'coordinates', 'populationData',
+              'subdivision', 'flagInfo', 'flagImage', 'coatOfArmsInfo', 'coatOfArmsImage', 'mapImage', 'insignia',
+              'postalCode', 'inception', 'abolition', 'partnerCities', 'gnd', 'geonamesID',
+              'openStreetMapRelationID', 'openStreetMapNodeID', 'label_de', 'label_en', 'label_fr',
+              'desc_de', 'desc_en', 'desc_fr', 'sitelink_de', 'sitelink_en', 'sitelink_fr']
+
+    sorted_data = defaultdict(lambda: {cat: [] for cat in categories})
+
+    for entry in results['results']['bindings']:
+        id_value = entry['id']['value']
+        for key, value in entry.items():
+            if key != 'id' and key in categories:
+                sorted_data[id_value][key].append(value['value'])  # Füge Werte zur entsprechenden Kategorie hinzu
+
+    for id_value, attributes in sorted_data.items():
+        for key, values in attributes.items():
+            if len(values) == 1:
+                attributes[key] = values[0]
+            elif len(values) == 0:
+                attributes[key] = None
+
+    return dict(sorted_data)
+
+
+#wikidata_extractor("Q8177")
+
