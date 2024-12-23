@@ -52,8 +52,7 @@ def extract_gemeinde_data():
     counter = 5
 
     for i in list(kreisfreie_stadt_ids.keys())[counter-1:]: #landkreis_ids.keys())[counter-1:]:  
-        #temp_data = wikidata_extractor('l', i)
-        temp_data = wikidata_extractor('g', "")
+        temp_data = wikidata_extractor('l', i)
         fieldnames = ['wikidata_id', 'instance_of', 'admin_unit', 'area', 'capital', 'coordinates', 'population', 'subdivision',
                     'flag_info', 'flag_image', 'coat_of_arms_info', 'coat_of_arms_image', 'map_image', 'insignia',
                     'postal_code', 'first_written_record', 'inception', 'abolition', 'partner_cities', 'gnd', 'geonames_id',
@@ -80,7 +79,7 @@ def extract_gemeinde_data():
                             row[key] = f'{str(values)}'
                     writer.writerow(row)
             #print(f"Landkreis {counter}/294: {landkreis_ids[i][0]} ({i}) successfully processed!")
-            #print(f"Kreisfreie Stadt {counter}/106: {kreisfreie_stadt_ids[i][0]} ({i}) successfully processed!")
+            print(f"Kreisfreie Stadt {counter}/106: {kreisfreie_stadt_ids[i][0]} ({i}) successfully processed!")
             counter += 1
             time.sleep(0)
         except Exception as e:
@@ -91,14 +90,5 @@ def extract_gemeinde_data():
                 writer_failed.writerow([i])
 
 
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     extract_gemeinde_data()
-    #upload_to_sql()
