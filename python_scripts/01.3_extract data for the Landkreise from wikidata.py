@@ -8,11 +8,11 @@ with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
     reader = csv.reader(inputfile)
     for i, row in enumerate(reader):
         if len(row) < 3:
-            print(f"Warnung: Ungültige Zeile {i + 1} übersprungen: {row}")
+            print(f"Warning: Invalid line {i + 1} skipped: {row}")
             continue
         wikidata_id = row[input_file[1]]
         failed_ids = []
-        print(f"Verarbeite Wikidata-ID: {wikidata_id}")
+        print(f"Processing Wikidata-ID: {wikidata_id}")
         try:
             data = wikidata_extractor(wikidata_id)
             data['bundesland'] = row[0]
@@ -32,11 +32,11 @@ with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
                             row[key] = f'{str(values)}'
                     writer.writerow(row)
                     time.sleep(0)
-                    print(f"Ergebnisse in {output_file} gespeichert.")
+                    print(f"Results successfully saved in {output_file}.")
             else:
-                print(f"Keine Daten für Wikidata-ID: {wikidata_id}")
+                print(f"No data for wikidata id: {wikidata_id}")
         except Exception as e:
-            print(f"Fehler beim Abrufen der Daten für {wikidata_id}: {e}")
+            print(f"Error when accessing the data for {wikidata_id}: {e}")
             failed_ids.append(wikidata_id)
             with open('wikidata_output/failed_ids.csv', 'a', newline='') as csvfile:
                 writer_failed = csv.writer(csvfile)

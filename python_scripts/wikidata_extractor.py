@@ -181,19 +181,47 @@ def wikidata_extractor(mode, wikidata_id):
     #    file.write(str(results))
 
     # Sorting the data and transforming it into a usuable dictionary
-    categories = ['instanceOfData', 'adminUnitData', 'areaData', 'capital', 'coordinates', 'populationData',
-              'subdivision', 'flagInfo', 'flagImage', 'coatOfArmsInfo', 'coatOfArmsImage', 'mapImage', 'insignia',
-              'postalCode', 'inception', 'abolition', 'partnerCities', 'gnd', 'geonamesID',
-              'openStreetMapRelationID', 'openStreetMapNodeID', 'label_de', 'label_en', 'label_fr',
-              'desc_de', 'desc_en', 'desc_fr', 'sitelink_de', 'sitelink_en', 'sitelink_fr']
+    categories = {'wikidataID': 'wikidata_id',
+                  'instanceOfData': 'instance_of',
+                  'adminUnitData': 'admin_unit',
+                  'areaData': 'area',
+                  'capital': 'capital',
+                  'coordinates': 'coordinates',
+                  'populationData': 'population',
+                  'subdivision': 'subdivision',
+                  'flagInfo': 'flag_info',
+                  'flagImage': 'flag_image',
+                  'coatOfArmsInfo': 'coat_of_arms_info',
+                  'coatOfArmsImage': 'coat_of_arms_image',
+                  'mapImage': 'map_image', 
+                  'insignia': 'insignia',
+                  'postalCode': 'postal_code',
+                  'inception': 'inception',
+                  'abolition': 'abolition',
+                  'partnerCities': 'partner_cities',
+                  'gnd': 'gnd',
+                  'geonamesID': 'geonames_id',
+                  'openStreetMapRelationID': 'openstreetmap_rel_id',
+                  'openStreetMapNodeID': 'openstreetmap_node_id',
+                  'label_de': 'label_de',
+                  'label_en': 'label_en',
+                  'label_fr': 'label_fr',
+                  'desc_de': 'desc_de',
+                  'desc_en': 'desc_en',
+                  'desc_fr': 'desc_fr',
+                  'sitelink_de': 'sitelink_de',
+                  'sitelink_en': 'sitelink_en',
+                  'sitelink_fr': 'sitelink_fr'
+                  }
 
-    sorted_data = defaultdict(lambda: {cat: [] for cat in categories})
+    sorted_data = defaultdict(lambda: {cat: [] for cat in categories.values()})
 
     for entry in results['results']['bindings']:
         id_value = entry['id']['value']
         for key, value in entry.items():
             if key != 'id' and key in categories:
-                sorted_data[id_value][key].append(value['value'])
+                snake_case_key = categories[key]
+                sorted_data[id_value][snake_case_key].append(value['value'].replace("http://www.wikidata.org/entity/", ""))
 
     for id_value, attributes in sorted_data.items():
         for key, values in attributes.items():
@@ -201,10 +229,11 @@ def wikidata_extractor(mode, wikidata_id):
                 attributes[key] = values[0]
             elif len(values) == 0:
                 attributes[key] = None
-
-    return dict(sorted_data)
+    sorted_data = dict(sorted_data[id_value])
+    sorted_data['wikidata_id'] = id_value.replace("http://www.wikidata.org/entity/", "")
+    return sorted_data
 
 # for one-time inputs
-mode = input("Mode? ")
-wikidata_id = input("ID? ")
-print(wikidata_extractor(mode, wikidata_id))
+# mode = input("Mode? ")
+# wikidata_id = input("ID? ")
+# print(wikidata_extractor(mode, wikidata_id))
