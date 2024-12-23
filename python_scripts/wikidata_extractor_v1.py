@@ -268,4 +268,4 @@ def wikidata_extractor(wikidata_id):
           if value not in data[key]:
               data[key].append(value)        
 
-    return data
+    return data 
