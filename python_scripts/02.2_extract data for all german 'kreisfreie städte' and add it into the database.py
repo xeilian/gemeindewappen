@@ -6,8 +6,6 @@ input_file = ["wikidata_output/dummy_data.csv", 1] # kreisfreie_städte_raw.csv"
 output_file = "wikidata_output/kreisfreie_städte_with_data.csv"
 
 # extract the data
-import csv
-
 def extract_kreisfreie_städte():
     with open(input_file[0], mode="r", encoding="utf-8", newline="") as inputfile:
         reader = csv.reader(inputfile)
@@ -29,6 +27,9 @@ def extract_kreisfreie_städte():
                                'sitelink_en', 'sitelink_fr', 'bundesland', 'type']
                 with open(output_file, mode="a", encoding="utf-8", newline="") as outputfile:
                     writer = csv.DictWriter(outputfile, fieldnames=fieldnames)
+                    outputfile.seek(0, 2) 
+                    if outputfile.tell() == 0:
+                        writer.writeheader()
                     row = {}
                     for key, values in data.items():
                         if isinstance(values, dict):
@@ -172,7 +173,7 @@ def upload_kreisfreie_städte_into_sql():
             INSERT INTO kreisfreie_städte (wikidata_id, name, type, instance_of, admin_unit, coordinates, population_ids, area_ids, capital,
                                     flag_info, flag_image, map_image, insignia, postal_code, inception, abolition, partner_cities,
                                     normdaten_id, bundesland)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (wikidata_id, label_de, entity_type, instance_of, admin_unit, coordinates, ','.join(map(str, population_ids)), ','.join(map(str, area_ids)),
                   row['capital'], row['flag_info'], row['flag_image'], row['map_image'], row['insignia'], row['postal_code'], row['inception'],
                   row['abolition'], row['partner_cities'], normdaten_id, bundesland))
@@ -187,4 +188,4 @@ def upload_kreisfreie_städte_into_sql():
 
 if __name__ == "__main__":
     extract_kreisfreie_städte()
-    #upload_kreisfreie_städte_into_sql()
+    upload_kreisfreie_städte_into_sql()
