@@ -17,13 +17,14 @@ def extract_kreisfreie_städte():
             failed_ids = []
             print(f"Processing Wikidata-ID: {wikidata_id}")
             try:
-                data = wikidata_extractor('s', wikidata_id)  # Replace with your actual data extraction function
+                data = wikidata_extractor('s', wikidata_id)
                 data['bundesland'] = row[3]
                 data['type'] = 'kreisfreie_stadt'
                 fieldnames = ['wikidata_id', 'instance_of', 'admin_unit', 'area', 'capital', 'coordinates', 'population', 'subdivision',
                                'flag_info', 'flag_image', 'coat_of_arms_info', 'coat_of_arms_image', 'map_image', 'insignia',
-                               'postal_code', 'inception', 'abolition', 'partner_cities', 'gnd', 'geonames_id', 'openstreetmap_rel_id',
-                               'openstreetmap_node_id', 'label_de', 'label_en', 'label_fr', 'desc_de', 'desc_en', 'desc_fr', 'sitelink_de', 
+                               'postal_code', 'first_written_record', 'inception', 'abolition', 'partner_cities', 'gnd', 'geonames_id',
+                               'openstreetmap_rel_id', 'openstreetmap_node_id', 'district_key', 'regional_key',
+                               'label_de', 'label_en', 'label_fr', 'desc_de', 'desc_en', 'desc_fr', 'sitelink_de',
                                'sitelink_en', 'sitelink_fr', 'bundesland', 'type']
                 with open(output_file, mode="a", encoding="utf-8", newline="") as outputfile:
                     writer = csv.DictWriter(outputfile, fieldnames=fieldnames)
@@ -86,6 +87,7 @@ def upload_kreisfreie_städte_into_sql():
         map_image TEXT,
         insignia TEXT,
         postal_code TEXT,
+        first_written_record TEXT,
         inception TEXT,
         abolition TEXT,
         partner_cities TEXT,
@@ -160,10 +162,10 @@ def upload_kreisfreie_städte_into_sql():
 
             # normdaten
             cur.execute('''
-            INSERT INTO normdaten (wikidata_id, name, gnd, geonames_id, openstreetmap_rel_id, openstreetmap_node_id,
+            INSERT INTO normdaten (wikidata_id, name, gnd, geonames_id, openstreetmap_rel_id, openstreetmap_node_id, district_key, regional_key,
                                    label_de, label_en, label_fr, desc_de, desc_en, desc_fr, sitelink_de, sitelink_en, sitelink_fr)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (wikidata_id, label_de, row['gnd'], row['geonames_id'], row['openstreetmap_rel_id'], row['openstreetmap_node_id'],
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (wikidata_id, label_de, row['gnd'], row['geonames_id'], row['openstreetmap_rel_id'], row['openstreetmap_node_id'], row['district_key'], row['regional_key'],
                   row['label_de'], row['label_en'], row['label_fr'], row['desc_de'], row['desc_en'], row['desc_fr'],
                   row['sitelink_de'], row['sitelink_en'], row['sitelink_fr']))
             normdaten_id = cur.lastrowid
@@ -171,11 +173,11 @@ def upload_kreisfreie_städte_into_sql():
             # kreisfreie_städte
             cur.execute('''
             INSERT INTO kreisfreie_städte (wikidata_id, name, type, instance_of, admin_unit, coordinates, population_ids, area_ids, capital,
-                                    flag_info, flag_image, map_image, insignia, postal_code, inception, abolition, partner_cities,
+                                    flag_info, flag_image, map_image, insignia, postal_code, first_written_record, inception, abolition, partner_cities,
                                     normdaten_id, bundesland)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (wikidata_id, label_de, entity_type, instance_of, admin_unit, coordinates, ','.join(map(str, population_ids)), ','.join(map(str, area_ids)),
-                  row['capital'], row['flag_info'], row['flag_image'], row['map_image'], row['insignia'], row['postal_code'], row['inception'],
+                  row['capital'], row['flag_info'], row['flag_image'], row['map_image'], row['insignia'], row['postal_code'], row['first_written_record'], row['inception'],
                   row['abolition'], row['partner_cities'], normdaten_id, bundesland))
         except Exception as e:
             print(f"Error in line {index}: {e}")

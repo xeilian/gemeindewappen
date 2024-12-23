@@ -31,9 +31,10 @@ def wikidata_extractor(mode, wikidata_id):
     sparql_query = f"""
     SELECT DISTINCT ?id
           ?instanceOfData ?adminUnitData ?areaData ?capital ?coordinates ?populationData 
-          ?subdivision ?flagInfo ?flagImage ?coatOfArmsInfo ?coatOfArmsImage ?mapImage ?insignia ?postalCode ?inception ?abolition ?partnerCities 
-          ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?label_de ?label_en ?label_fr 
-          ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
+          ?subdivision ?flagInfo ?flagImage ?coatOfArmsInfo ?coatOfArmsImage ?mapImage ?insignia ?postalCode 
+          ?firstWrittenRecord ?inception ?abolition ?partnerCities 
+          ?gnd ?geonamesID ?openStreetMapRelationID ?openStreetMapNodeID ?districtKey ?regionalKey  
+          ?label_de ?label_en ?label_fr ?desc_de ?desc_en ?desc_fr ?sitelink_de ?sitelink_en ?sitelink_fr
     WHERE {{
       {mode_in_query}
       {{
@@ -126,6 +127,8 @@ def wikidata_extractor(mode, wikidata_id):
       UNION
       {{ ?id wdt:P281 ?postalCode. }}
       UNION
+      {{ ?id wdt:P1249 ?firstWrittenRecord. }}
+      UNION
       {{ ?id wdt:P571 ?inception. }}
       UNION
       {{ ?id wdt:P576 ?abolition. }}
@@ -139,6 +142,10 @@ def wikidata_extractor(mode, wikidata_id):
       {{ ?id wdt:P402 ?openStreetMapRelationID. }}
       UNION
       {{ ?id wdt:P11693 ?openStreetMapNodeID. }}
+      UNION
+      {{ ?id wdt:P440 ?districtKey. }}
+      UNION
+      {{ ?id wdt:P1388 ?regionalKey. }}
       UNION
       {{ ?id rdfs:label ?label_de. FILTER(LANG(?label_de) = "de") }}
       UNION
@@ -196,6 +203,7 @@ def wikidata_extractor(mode, wikidata_id):
                   'mapImage': 'map_image', 
                   'insignia': 'insignia',
                   'postalCode': 'postal_code',
+                  'firstWrittenRecord': 'first_written_record',
                   'inception': 'inception',
                   'abolition': 'abolition',
                   'partnerCities': 'partner_cities',
@@ -203,6 +211,8 @@ def wikidata_extractor(mode, wikidata_id):
                   'geonamesID': 'geonames_id',
                   'openStreetMapRelationID': 'openstreetmap_rel_id',
                   'openStreetMapNodeID': 'openstreetmap_node_id',
+                  'districtKey': 'district_key',
+                  'regionalKey': 'regional_key',
                   'label_de': 'label_de',
                   'label_en': 'label_en',
                   'label_fr': 'label_fr',
