@@ -1,6 +1,5 @@
 import csv, time, sqlite3, re, pandas as pd
 from wikidata_extractor import wikidata_extractor
-from collections import defaultdict
 
 input_file = ["wikidata_output/dummy_data.csv",1]#kreisfreie_städte_raw.csv", 1]   # [input_file, row number of wikidata_id]
 output_file = "wikidata_output/dummy_data2.csv"#kreisfreie_städte_with_data.csv"
