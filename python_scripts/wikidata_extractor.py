@@ -224,26 +224,32 @@ def wikidata_extractor(mode, wikidata_id):
                   'sitelink_fr': 'sitelink_fr'
                   }
 
-    sorted_data = defaultdict(lambda: {cat: [] for cat in categories.values()})
+    all_sorted_data = {}
 
     for entry in results['results']['bindings']:
         id_value = entry['id']['value']
+        clean_id = id_value.replace("http://www.wikidata.org/entity/", "")
+
+        if clean_id not in all_sorted_data:
+            all_sorted_data[clean_id] = {cat: [] for cat in categories.values()}
+        
         for key, value in entry.items():
             if key != 'id' and key in categories:
                 snake_case_key = categories[key]
-                sorted_data[id_value][snake_case_key].append(value['value'].replace("http://www.wikidata.org/entity/", ""))
+                value_cleaned = value['value'].replace("http://www.wikidata.org/entity/", "")
+                
+                if value_cleaned not in all_sorted_data[clean_id][snake_case_key]:
+                    all_sorted_data[clean_id][snake_case_key].append(value_cleaned)
+    processed_data = []
+    for id_value, attributes in all_sorted_data.items():
+        consolidated_entry = {key: values[0] if len(values) == 1 else values for key, values in attributes.items()}
+        consolidated_entry['wikidata_id'] = id_value
+        processed_data.append(consolidated_entry)
 
-    for id_value, attributes in sorted_data.items():
-        for key, values in attributes.items():
-            if len(values) == 1:
-                attributes[key] = values[0]
-            elif len(values) == 0:
-                attributes[key] = None
-    sorted_data = dict(sorted_data[id_value])
-    sorted_data['wikidata_id'] = id_value.replace("http://www.wikidata.org/entity/", "")
-    return sorted_data
+    return processed_data
+
 
 # for one-time inputs
-# mode = input("Mode? ")
-# wikidata_id = input("ID? ")
-# print(wikidata_extractor(mode, wikidata_id))
+#mode = input("Mode? ")
+#wikidata_id = input("ID? ")
+#print(wikidata_extractor('l', 'Q8177'))

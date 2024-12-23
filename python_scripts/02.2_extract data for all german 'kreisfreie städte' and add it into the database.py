@@ -2,8 +2,8 @@ import csv, time, sqlite3, re, pandas as pd
 from wikidata_extractor import wikidata_extractor
 from collections import defaultdict
 
-input_file = ["wikidata_output/kreisfreie_städte_raw.csv", 1]   # [input_file, row number of wikidata_id]
-output_file = "wikidata_output/kreisfreie_städte_with_data.csv"
+input_file = ["wikidata_output/dummy_data.csv",1]#kreisfreie_städte_raw.csv", 1]   # [input_file, row number of wikidata_id]
+output_file = "wikidata_output/dummy_data2.csv"#kreisfreie_städte_with_data.csv"
 
 # extract the data
 def extract_kreisfreie_städte():
@@ -18,8 +18,9 @@ def extract_kreisfreie_städte():
             print(f"Processing Wikidata-ID: {wikidata_id}")
             try:
                 data = wikidata_extractor('s', wikidata_id)
-                data['bundesland'] = row[3]
-                data['type'] = 'kreisfreie_stadt'
+                data[0]['bundesland'] = row[3]
+                data[0]['type'] = 'kreisfreie_stadt'
+                print(data)
                 fieldnames = ['wikidata_id', 'instance_of', 'admin_unit', 'area', 'capital', 'coordinates', 'population', 'subdivision',
                                'flag_info', 'flag_image', 'coat_of_arms_info', 'coat_of_arms_image', 'map_image', 'insignia',
                                'postal_code', 'first_written_record', 'inception', 'abolition', 'partner_cities', 'gnd', 'geonames_id',
@@ -31,15 +32,16 @@ def extract_kreisfreie_städte():
                     outputfile.seek(0, 2) 
                     if outputfile.tell() == 0:
                         writer.writeheader()
-                    row = {}
-                    for key, values in data.items():
-                        if isinstance(values, dict):
-                            row[key] = str(values)
-                        elif isinstance(values, list):
-                            row[key] = f'{", ".join(map(str, values))}'
-                        else:
-                            row[key] = f'{str(values)}'
-                    writer.writerow(row)
+                    for i in data:
+                        row = {}
+                        for key, values in i.items():
+                            if isinstance(values, dict):
+                                row[key] = str(values)
+                            elif isinstance(values, list):
+                                row[key] = f'{", ".join(map(str, values))}'
+                            else:
+                                row[key] = f'{str(values)}'
+                        writer.writerow(row)
                 print(f"The new csv file was successfully created: {output_file}")
             except Exception as e:
                 print(f"Error when accessing the data for {wikidata_id}: {e}")
