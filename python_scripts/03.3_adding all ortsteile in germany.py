@@ -14,7 +14,7 @@ def extract_kreisfreie_städte():
                 continue
             wikidata_id = row[input_file[1]]
             failed_ids = []
-            #print(f"Processing Wikidata-ID: {wikidata_id}")
+            print(f"Processing Wikidata-ID: {wikidata_id}")
             try:
                 data = wikidata_extractor('s', wikidata_id)
                 data[0]['bundesland'] = row[2]
