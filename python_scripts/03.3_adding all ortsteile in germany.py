@@ -44,7 +44,7 @@ def extract_kreisfreie_städte():
             except Exception as e:
                 print(f"Error when accessing the data for {wikidata_id}: {e}")
                 failed_ids.append(wikidata_id)
-                with open('wikidata_output/failed_ids.csv', 'a', newline='') as csvfile:
+                with open('wikidata_output/failed_ids.csv', 'a', encoding='utf-8', newline='') as csvfile:
                     writer_failed = csv.writer(csvfile)
                     writer_failed.writerow([wikidata_id, row[1], row[2]])
 
