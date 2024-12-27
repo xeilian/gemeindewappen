@@ -1,4 +1,24 @@
 import csv, re, sqlite3
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+
+def ortsteile_ids(landkreis_id):
+    sparql_query = f"""
+    SELECT DISTINCT ?item WHERE {{
+    ?item p:P31 ?statement0.
+    ?statement0 (ps:P31/(wdt:P279*)) wd:Q253019.
+    ?item p:P131 ?statement1.
+    ?statement1 (ps:P131/(wdt:P131)) wd:{landkreis_id}.
+    }}
+    """
+    
+    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+    sparql.setQuery(sparql_query)
+    sparql.setReturnFormat(JSON)
+    
+    results = sparql.query().convert()
+    ortsteile_list = [result['item']['value'].replace("http://www.wikidata.org/entity/", "") for result in results["results"]["bindings"]]
+    return ortsteile_list
 
 
 def new_column():
