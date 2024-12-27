@@ -38,7 +38,6 @@ def new_column():
 
 def fetch_municipality_keys():
     landkreis_ids = fetch_landkreis_ids()
-    failed = 'wikidata_output/failed_ids.csv'
     csv_file_path = 'wikidata_output/gemeinden_siedlungen_deutschland_with_data.csv'
     temp_file_path = 'wikidata_output/temp.csv'
     failed_ids = []
