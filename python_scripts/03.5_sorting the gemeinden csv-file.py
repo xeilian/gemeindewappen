@@ -2,23 +2,24 @@ import csv, re, sqlite3
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
-def ortsteile_ids(landkreis_id):
-    sparql_query = f"""
-    SELECT DISTINCT ?item WHERE {{
-    ?item p:P31 ?statement0.
-    ?statement0 (ps:P31/(wdt:P279*)) wd:Q253019.
-    ?item p:P131 ?statement1.
-    ?statement1 (ps:P131/(wdt:P131)) wd:{landkreis_id}.
-    }}
+def fetch_landkreis_ids():
+    database_path = "gemeindewappen.db"
+    query = """
+    SELECT wikidata_id, name, bundesland
+    FROM landkreise
+    WHERE type="landkreis"
     """
-    
-    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
-    sparql.setQuery(sparql_query)
-    sparql.setReturnFormat(JSON)
-    
-    results = sparql.query().convert()
-    ortsteile_list = [result['item']['value'].replace("http://www.wikidata.org/entity/", "") for result in results["results"]["bindings"]]
-    return ortsteile_list
+    try:
+        conn = sqlite3.connect(database_path)
+        cursor = conn.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        landkreis_ids = {row[0]: [row[1], row[2]] for row in results}
+    except sqlite3.Error as e:
+        print("Fehler beim Zugriff auf die Datenbank:", e)
+    finally:
+        conn.close()
+    return landkreis_ids
 
 
 def new_column():
