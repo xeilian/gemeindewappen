@@ -57,22 +57,18 @@ def fetch_municipality_keys():
             sparql.setReturnFormat(JSON)
             results = sparql.query().convert()
 
-            for entry in results['results']['bindings']:
-                id_value = entry['id']['value'].replace("http://www.wikidata.org/entity/", "")
-                municipality_key = entry['municipalityKey']['value']
-
-                with open(csv_file_path, mode="r", newline="", encoding="utf-8") as file, \
-                open(temp_file_path, mode="w", newline="", encoding="utf-8") as temp_file:
-                    
-                    reader = csv.reader(file)
-                    writer = csv.writer(temp_file)
-                    
+            with open(csv_file_path, mode="r", newline="", encoding="utf-8") as file, \
+            open(temp_file_path, mode="w", newline="", encoding="utf-8") as temp_file:
+                reader = csv.reader(file)
+                writer = csv.writer(temp_file)
+                for entry in results['results']['bindings']:
+                    id_value = entry['id']['value'].replace("http://www.wikidata.org/entity/", "")
+                    municipality_key = entry['municipalityKey']['value']
                     for row in reader:
                         if row[0] == id_value:
                             row[24] = municipality_key
                         writer.writerow(row)
-                os.replace(temp_file_path, csv_file_path)
-                print(f"ID {id_value} erfolgreich mit Wert bei Index 24 aktualisiert.")
+            os.replace(temp_file_path, csv_file_path)
             print(f"Landkreis {counter}/294: {landkreis_ids[i][0]} ({i}) successfully processed!")
         except Exception as e:
             print(f"Error when accessing the data for {landkreis_ids[i][0]} ({i}): {e}")
