@@ -38,6 +38,7 @@ def new_column():
 
 def fetch_municipality_keys():
     landkreis_ids = fetch_landkreis_ids()
+    failed = 'wikidata_output/failed_ids.csv'
     csv_file_path = 'wikidata_output/gemeinden_siedlungen_deutschland_with_data.csv'
     temp_file_path = 'wikidata_output/temp.csv'
     failed_ids = []
@@ -59,7 +60,6 @@ def fetch_municipality_keys():
             sparql.setReturnFormat(JSON)
             results = sparql.query().convert()
 
-            # Verarbeite die Ergebnisse und füge sie dem all_updates-Dictionary hinzu
             updates = {
                 entry['id']['value'].replace("http://www.wikidata.org/entity/", ""): entry['municipalityKey']['value']
                 for entry in results['results']['bindings']
@@ -122,6 +122,6 @@ def sort_into_the_new_csv_files():
 if __name__ == "__main__":
     #fetch_landkreis_ids()
     #new_column()
-    fetch_municipality_keys()
-    #sort_into_the_new_csv_files()
+    #fetch_municipality_keys()
+    sort_into_the_new_csv_files()
     pass
