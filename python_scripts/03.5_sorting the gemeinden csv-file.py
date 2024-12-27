@@ -1,4 +1,4 @@
-import csv, re, sqlite3
+import csv, re, sqlite3, os
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -39,53 +39,47 @@ def new_column():
 def fetch_municipality_keys():
     landkreis_ids = fetch_landkreis_ids()
     csv_file_path = 'wikidata_output/gemeinden_siedlungen_deutschland_with_data.csv'
+    temp_file_path = 'wikidata_output/temp.csv'
+    failed_ids = []
 
-    for i in landkreis_ids.keys():
-        pass
+    for counter, i in enumerate(landkreis_ids.keys(), start=1):
+        print(f"Fetching data from Landkreis {counter}/294, {landkreis_ids[i][0]} ({i})...")
+        try:
+            sparql_query = f'''
+            SELECT DISTINCT ?id ?municipalityKey  
+            WHERE {{
+            ?id wdt:P131 wd:{i}.
+            {{ ?id wdt:P439 ?municipalityKey. }}
+            }}
+            '''
+            sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+            sparql.setQuery(sparql_query)
+            sparql.setReturnFormat(JSON)
+            results = sparql.query().convert()
 
-    sparql_query = f'''
-    SELECT DISTINCT ?id ?municipalityKey  
-    WHERE {{
-      ?id wdt:P131 wd:{i}.
-      {{ ?id wdt:P439 ?municipalityKey. }}
-    }}
-    '''
+            for entry in results['results']['bindings']:
+                id_value = entry['id']['value'].replace("http://www.wikidata.org/entity/", "")
+                municipality_key = entry['municipalityKey']['value']
 
-    # Ergebnisse iterieren
-    for entry in results['results']['bindings']:
-        id_value = entry['id']['value'].replace("http://www.wikidata.org/entity/", "")
-        municipality_key = entry['municipalityKey']['value']
-
-        # Temporäre Datei zum Überschreiben erstellen
-        temp_file_path = 'wikidata_output/temp.csv'
-
-        with open(csv_file_path, mode="r", newline="", encoding="utf-8") as file, \
-            open(temp_file_path, mode="w", newline="", encoding="utf-8") as temp_file:
-            
-            reader = csv.reader(file)
-            writer = csv.writer(temp_file)
-            
-            # Datei zeilenweise lesen
-            for row in reader:
-                # Prüfen, ob die ID in der ersten Spalte übereinstimmt
-                if row[0] == id_value:
-                    # Sicherstellen, dass genügend Spalten vorhanden sind
-                    if len(row) > 24:
-                        row[24] = municipality_key
-                    else:
-                        # Fehlende Spalten auffüllen
-                        row.extend([""] * (24 - len(row)))
-                        row.append(municipality_key)
-                # Zeile in die temporäre Datei schreiben
-                writer.writerow(row)
-
-        # Originaldatei durch die aktualisierte Datei ersetzen
-        import os
-        os.replace(temp_file_path, csv_file_path)
-
-        print(f"ID {id_value} erfolgreich mit Wert bei Index 24 aktualisiert.")
-
-
+                with open(csv_file_path, mode="r", newline="", encoding="utf-8") as file, \
+                open(temp_file_path, mode="w", newline="", encoding="utf-8") as temp_file:
+                    
+                    reader = csv.reader(file)
+                    writer = csv.writer(temp_file)
+                    
+                    for row in reader:
+                        if row[0] == id_value:
+                            row[24] = municipality_key
+                        writer.writerow(row)
+                os.replace(temp_file_path, csv_file_path)
+                print(f"ID {id_value} erfolgreich mit Wert bei Index 24 aktualisiert.")
+            print(f"Landkreis {counter}/294: {landkreis_ids[i][0]} ({i}) successfully processed!")
+        except Exception as e:
+            print(f"Error when accessing the data for {landkreis_ids[i][0]} ({i}): {e}")
+            failed_ids.append(i)
+            with open('wikidata_output/failed_ids.csv', 'a', newline='') as csvfile:
+                writer_failed = csv.writer(csvfile)
+                writer_failed.writerow([i])
 
 
 def sort_into_the_new_csv_files():
@@ -114,6 +108,6 @@ def sort_into_the_new_csv_files():
 if __name__ == "__main__":
     #fetch_landkreis_ids()
     #new_column()
-    #fetch_municipality_keys()
+    fetch_municipality_keys()
     #sort_into_the_new_csv_files()
     pass
