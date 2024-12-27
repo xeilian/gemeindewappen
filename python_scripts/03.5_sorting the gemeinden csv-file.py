@@ -41,15 +41,17 @@ def fetch_municipality_keys():
     csv_file_path = 'wikidata_output/gemeinden_siedlungen_deutschland_with_data.csv'
     temp_file_path = 'wikidata_output/temp.csv'
     failed_ids = []
+    all_updates = {}
 
     for counter, i in enumerate(landkreis_ids.keys(), start=1):
-        print(f"Fetching data from Landkreis {counter}/294, {landkreis_ids[i][0]} ({i})...")
+        landkreis_name = landkreis_ids[i][0]
+        print(f"Fetching data from Landkreis {counter}/294, {landkreis_name} ({i})...")
         try:
             sparql_query = f'''
             SELECT DISTINCT ?id ?municipalityKey  
             WHERE {{
-            ?id wdt:P131 wd:{i}.
-            {{ ?id wdt:P439 ?municipalityKey. }}
+                ?id wdt:P131 wd:{i}.
+                ?id wdt:P439 ?municipalityKey.
             }}
             '''
             sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
@@ -57,25 +59,41 @@ def fetch_municipality_keys():
             sparql.setReturnFormat(JSON)
             results = sparql.query().convert()
 
-            with open(csv_file_path, mode="r", newline="", encoding="utf-8") as file, \
-            open(temp_file_path, mode="w", newline="", encoding="utf-8") as temp_file:
-                reader = csv.reader(file)
-                writer = csv.writer(temp_file)
-                for entry in results['results']['bindings']:
-                    id_value = entry['id']['value'].replace("http://www.wikidata.org/entity/", "")
-                    municipality_key = entry['municipalityKey']['value']
-                    for row in reader:
-                        if row[0] == id_value:
-                            row[24] = municipality_key
-                        writer.writerow(row)
-            os.replace(temp_file_path, csv_file_path)
-            print(f"Landkreis {counter}/294: {landkreis_ids[i][0]} ({i}) successfully processed!")
+            # Verarbeite die Ergebnisse und füge sie dem all_updates-Dictionary hinzu
+            updates = {
+                entry['id']['value'].replace("http://www.wikidata.org/entity/", ""): entry['municipalityKey']['value']
+                for entry in results['results']['bindings']
+            }
+            all_updates.update(updates)
+            print(f"Landkreis {counter}/294: {landkreis_name} ({i}) successfully fetched!")
         except Exception as e:
-            print(f"Error when accessing the data for {landkreis_ids[i][0]} ({i}): {e}")
+            print(f"Error when accessing the data for Landkreis {landkreis_name} ({i}): {e}")
             failed_ids.append(i)
-            with open('wikidata_output/failed_ids.csv', 'a', newline='') as csvfile:
+            with open('wikidata_output/failed_ids.csv', 'a', newline='', encoding='utf-8') as csvfile:
                 writer_failed = csv.writer(csvfile)
                 writer_failed.writerow([i])
+
+    try:
+        with open(csv_file_path, mode="r", newline="", encoding="utf-8") as file, \
+             open(temp_file_path, mode="w", newline="", encoding="utf-8") as temp_file:
+            reader = csv.reader(file)
+            writer = csv.writer(temp_file)
+
+            for row in reader:
+                id_value = row[0]
+                if id_value in all_updates:
+                    row[24] = all_updates[id_value]
+                writer.writerow(row)
+
+        os.replace(temp_file_path, csv_file_path)
+        print("Alle Datensätze erfolgreich verarbeitet!")
+    except Exception as e:
+        print(f"Error processing the CSV file: {e}")
+
+    if failed_ids:
+        print(f"The following Landkreis IDs could not be processed: {failed_ids}")
+    else:
+        print("All Landkreis IDs processed successfully!")
 
 
 def sort_into_the_new_csv_files():
@@ -85,7 +103,7 @@ def sort_into_the_new_csv_files():
             ids = re.findall(r'Q\d+', i[1])
             coa_image = re.findall(r'http://commons.wikimedia.org/', i[11])
 
-            if i[24] is not "":
+            if i[24] != "":
                 with open('wikidata_output/gemeinden_deutschland.csv', encoding="utf-8", mode="a", newline="") as gemeindefile:
                     gemeinde_writer = csv.writer(gemeindefile)
                     gemeinde_writer.writerow(i)
