@@ -8,7 +8,7 @@ def sort_specific_categories_out():
 
         for row in rows:
             ids = re.findall(r'Q\d+', row[1])
-            if "Q41762994" in ids:
+            if "Q1561418" in ids:
                 verwaltungsgemeinden.append(row)
                 rows.remove(row)
         
@@ -25,4 +25,4 @@ def sort_specific_categories_out():
 if __name__ == "__main__":
     sort_specific_categories_out()
 
-# 1. verwaltungsgemeinden (Q15725618, Q41762994)
+# 1. verwaltungsgemeinden (Q15725618, Q41762994, Q1561418)
