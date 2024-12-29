@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ landkreis.name }}</title>
+</head>
+<body>
+    <h1>{{ landkreis.name }}</h1>
+    <p>Koordinaten: {{ landkreis.coordinates }}</p>
+    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox={{ landkreis.coordinates }}" width="100%" height="400" style="border: 1px solid #ccc;"></iframe>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landkreise</title>
+</head>
+<body>
+    <h1>Liste der Landkreise</h1>
+    <ul>
+        {% for landkreis in landkreise %}
+            <li>
+                <a href="{% url 'landkreis_detail' landkreis.id %}">{{ landkreis.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

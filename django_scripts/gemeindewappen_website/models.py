@@ -22,3 +22,14 @@ class Tinktur(models.Model):
 
     def __str__(self):
         return self.name
+
+class Landkreis(models.Model):
+    wikidata_id = models.CharField(max_length=255, primary_key=True, default='default_value')
+    name = models.CharField(max_length=255)
+    coordinates = models.CharField(max_length=255)
+    
+    class Meta:
+        db_table = 'landkreise'
+
+    def __str__(self):
+        return self.name
