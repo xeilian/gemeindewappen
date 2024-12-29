@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.title-box {
+    background-color: #273a4d;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.title-box h1 {
+    font-size: 2.5rem;
+    margin: 1vh;
+    padding: 0px
+}
+
+.title-box h2 {
+    font-size: 1.5;
+    margin: 1vh;
+    padding: 0px
+}
+
+.content-box {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    gap: 20px;
+}
+
+.left-section, .right-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.info-section {
+    margin-bottom: 20px;
+}
+
+.info-section h2 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+/* Wappen */
+.wappen-image {
+    max-width: 50vh;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tinkturen-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tinkturen-box {
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+a:link {
+    color: white;
+  }
+
+a:visited {
+    color: white;
+}
+
+
+iframe {
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+}

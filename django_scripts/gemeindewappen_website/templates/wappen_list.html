@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemeindewappen</title>
+    <!-- Lade das CSS aus dem static-Ordner -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gemeindewappen_website/styles.css' %}">
+</head>
+<body>
+    <main>
+        <!-- Titelbereich -->
+        <div class="title-box">
+            <h1>Gemeindewappen</h1>
+            <h2>Stadt in <a href="rhein-neckar-kreis.html">Rhein-Neckar-Kreis</a></h2>
+        </div>
+
+        <!-- Inhaltliche Box -->
+        <div class="content-box">
+            <!-- Loop durch alle Wappen -->
+            {% for wappen in wappen_list %}
+            <div class="wappen-section">
+                <!-- Wappen-Details -->
+                <div class="info-section">
+                    <h2>{{ wappen.name }}</h2>
+                    <img src="{{ wappen.bild.url }}" alt="Wappen von {{ wappen.name }}" class="wappen-image">
+                </div>
+
+                <!-- Blasonierung -->
+                <div class="info-section">
+                    <h3>Blasonierung</h3>
+                    <p>{{ wappen.blasonierung }}</p>
+                </div>
+
+                <!-- Tinkturen -->
+                <div class="info-section">
+                    <h3>Tinkturen</h3>
+                    <div class="tinkturen-grid">
+                        {% for tinktur in wappen.tinkturen %}
+                        <div class="tinkturen-box" style="background-color: {{ tinktur.farbe|default:'#000000' }}; color: {{ tinktur.textfarbe|default:'#FFFFFF' }};">
+                            {{ tinktur.name }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Karte -->
+                <div class="info-section">
+                    <h3>Karte</h3>
+                    <p>Koordinaten: {{ wappen.koordinaten }}</p>
+                    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox={{ wappen.bbox }}&amp;layer=mapnik" 
+                            width="100%" height="300" style="border: 1px solid #ccc;"></iframe>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

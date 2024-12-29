@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Wappen, Tinktur
 
-# Register your models here.
+admin.site.register(Wappen)
+admin.site.register(Tinktur)
