@@ -8,8 +8,7 @@ def wappen_list(request):
     return render(request, 'wappen_list.html', {'wappen_list': wappen_list})
 
 def landkreise_list(request):
-    # Alle Landkreise abrufen, bei denen der Typ "landkreis" ist
-    landkreise = Landkreis.objects.filter(type='landkreis')
+    landkreise = Landkreis.objects.all()  # Ensure this fetches all valid Landkreise
     return render(request, 'gemeindewappen_website/landkreise_list.html', {'landkreise': landkreise})
 
 def landkreis_detail(request, pk):

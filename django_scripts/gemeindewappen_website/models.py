@@ -24,10 +24,17 @@ class Tinktur(models.Model):
         return self.name
 
 class Landkreis(models.Model):
+    TYPE_CHOICES = [
+        ('landkreis', 'Landkreis'),
+        ('other_type', 'Other Type'),
+    ]
+
     wikidata_id = models.CharField(max_length=255, primary_key=True, default='default_value')
     name = models.CharField(max_length=255)
     coordinates = models.CharField(max_length=255)
-    
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES, blank=True, null=True)
+
+
     class Meta:
         db_table = 'landkreise'
 

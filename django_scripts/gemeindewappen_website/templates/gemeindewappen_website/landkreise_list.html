@@ -9,10 +9,14 @@
     <h1>Liste der Landkreise</h1>
     <ul>
         {% for landkreis in landkreise %}
-            <li>
-                <a href="{% url 'landkreis_detail' landkreis.id %}">{{ landkreis.name }}</a>
-            </li>
+            {% if landkreis.id %}
+                <li>
+                    <a href="{% url 'landkreis_detail' landkreis.id %}">{{ landkreis.name }}</a>
+                </li>
+            {% else %}
+                <li>{{ landkreis.name }} (No ID available)</li>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </ul>    
 </body>
 </html>
