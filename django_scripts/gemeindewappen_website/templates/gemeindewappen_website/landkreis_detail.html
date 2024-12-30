@@ -1,13 +1,33 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ landkreis.name }}</title>
-</head>
-<body>
-    <h1>{{ landkreis.name }}</h1>
-    <p>Koordinaten: {{ landkreis.coordinates }}</p>
-    <iframe src="https://www.openstreetmap.org/export/embed.html?bbox={{ landkreis.coordinates }}" width="100%" height="400" style="border: 1px solid #ccc;"></iframe>
-</body>
-</html>
+{% extends "base_generic.html" %}
+
+{% load static %} <!-- Django Tag, um statische Dateien zu laden -->
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="landkreis-detail-container">
+        <div class="landkreis-header">
+            <h1>{{ landkreis.name }}</h1>
+            <p class="wikidata-id">Wikidata ID: {{ landkreis.wikidata_id }}</p>
+        </div>
+
+        <div class="landkreis-info">
+            <div class="landkreis-description">
+                <h2>Beschreibung</h2>
+                <p>{{ landkreis.description }}</p>
+            </div>
+            <div class="landkreis-population">
+                <h2>Bevölkerung</h2>
+                <p>{{ landkreis.population }}</p>
+            </div>
+            <div class="landkreis-other-info">
+                <h2>Weitere Informationen</h2>
+                <p>{{ landkreis.other_info }}</p>
+            </div>
+        </div>
+
+        <a href="{% url 'landkreise_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+    </div>
+{% endblock %}

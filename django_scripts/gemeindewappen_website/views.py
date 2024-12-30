@@ -11,7 +11,6 @@ def landkreise_list(request):
     landkreise = Landkreis.objects.all()  # Ensure this fetches all valid Landkreise
     return render(request, 'gemeindewappen_website/landkreise_list.html', {'landkreise': landkreise})
 
-def landkreis_detail(request, pk):
-    # Detailansicht eines Landkreises basierend auf der ID (pk)
-    landkreis = get_object_or_404(Landkreis, id=id)
+def landkreis_detail(request, wikidata_id):
+    landkreis = Landkreis.objects.get(wikidata_id=wikidata_id)
     return render(request, 'gemeindewappen_website/landkreis_detail.html', {'landkreis': landkreis})

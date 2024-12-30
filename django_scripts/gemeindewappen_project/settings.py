@@ -56,9 +56,7 @@ ROOT_URLCONF = 'gemeindewappen_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'gemeindewappen_website/templates',  # Stellen sicher, dass dein 'templates'-Ordner hier aufgelistet ist
-        ],
+        'DIRS': [os.path.join(BASE_DIR, 'gemeindewappen_website/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,6 +127,9 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'gemeindewappen_website/static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

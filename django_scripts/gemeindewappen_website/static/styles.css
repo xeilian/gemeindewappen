@@ -1,0 +1,119 @@
+/* Allgemeine Layout-Einstellungen */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1, h2 {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Styling für den Header der Landkreise */
+.landkreis-detail-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 30px;
+}
+
+.landkreis-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.landkreis-header h1 {
+    font-size: 2.5rem;
+    color: #0056b3;
+}
+
+.wikidata-id {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* Styling für die Informationen des Landkreises */
+.landkreis-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.landkreis-description, .landkreis-population, .landkreis-other-info {
+    flex: 1 1 30%;
+    min-width: 250px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.landkreis-description h2,
+.landkreis-population h2,
+.landkreis-other-info h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.landkreis-description p,
+.landkreis-population p,
+.landkreis-other-info p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Responsive Anpassung für kleinere Bildschirme */
+@media (max-width: 768px) {
+    .landkreis-info {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .landkreis-description, .landkreis-population, .landkreis-other-info {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+
+    .landkreis-header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Stil für die Navigationslinks, z.B. Zurück-Link */
+.nav-link {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.nav-link:hover {
+    background-color: #0056b3;
+}
