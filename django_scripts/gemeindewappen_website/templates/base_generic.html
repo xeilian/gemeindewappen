@@ -7,14 +7,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Landkreise Detail{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .header-box {
+            position: sticky;
+            top: 0;
+            background-color: #0056b3;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+        }
+
+        .header-box h1 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .header-box .links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header-box .links a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            width: 40%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-box .links a i {
+            font-size: 24px; /* Larger size for icons */
+            margin-right: 8px;
+        }
+
+        .header-box .links a:hover {
+            background-color: #e6e6e6;
+        }
+
+        /* Styling for the wappen image */
+        /* .header-box .wappen {
+            width: 100px;
+            height: 100px;
+            background-image: url('{% static "wappen.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 20px auto;
+        } */
+
+        main {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #f4f7fc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Additional styling for smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'landkreise_list' %}">Zurück zur Liste</a></li>
-            </ul>
-        </nav>
+    <header class="header-box">
+        <h1>Gemeindewappen</h1>
+        <div class="links">
+            <a href="/"><i class="bi bi-house-door"></i> Übersicht</a>
+            <a href="#"><i class="bi bi-shield"></i> Wappen</a>
+            <a href="#"><i class="bi bi-map"></i> Karte</a>
+            <a href="#"><i class="bi bi-tags"></i> Tags</a>
+            <a href="#"><i class="bi bi-question-circle"></i> Test</a>            
+        </div>
+        <div class="wappen"></div>
     </header>
 
     <main>
@@ -24,7 +123,7 @@
     </main>
 
     <footer>
-        <p></p>
+        <p>Footer-Inhalt</p>
     </footer>
 </body>
 </html>
