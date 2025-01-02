@@ -1,0 +1,229 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block head %}
+    <style>
+        .landkreis-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .landkreis-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .landkreis-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .landkreis-header .subtitle {
+            color: gray;
+        }
+        .landkreis-main {
+            display: flex;
+            gap: 20px;
+        }
+        .landkreis-left {
+            flex: 1;
+            text-align: center;
+        }
+        .landkreis-wappen img {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .landkreis-blasonierung {
+            margin-bottom: 20px;
+        }
+        .landkreis-tinkturen {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .tinktur {
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+        }
+        .tinktur.or { background-color: gold; }
+        .tinktur.sable { background-color: black; }
+        .tinktur.vert { background-color: green; }
+        .landkreis-right {
+            flex: 2;
+        }
+        .landkreis-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .landkreis-details th, .landkreis-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .landkreis-details th {
+            background-color: #f4f4f4;
+        }
+        .landkreis-map {
+            margin-top: 20px;
+        }
+        iframe {
+            border: 1px solid black;
+            width: 100%;
+            height: 400px;
+        }
+        .landkreis-normdaten ul {
+            list-style: none;
+            padding: 0;
+        }
+        .landkreis-normdaten li {
+            margin-bottom: 5px;
+        }
+        .landkreis-administrative {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .population-chart-container {
+            margin-top: 20px;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .nav-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="landkreis-detail-container">
+        <!-- Header Section -->
+        <div class="landkreis-header">
+            <h1>{{ landkreis.name }}</h1>
+            <p class="subtitle">Landkreis in Baden-Württemberg</p>
+        </div>
+
+        <div class="landkreis-main">
+            <!-- Left Section: Wappen and Blasonierung -->
+            <div class="landkreis-left">
+                <div class="landkreis-wappen">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Wappen_Zollernalbkreis.svg" alt="Wappen von {{ landkreis.name }}">
+                </div>
+                <div class="landkreis-blasonierung">
+                    <h2>Blasonierung</h2>
+                    <p>{{ landkreis.blasonierung }}</p>
+                    <div class="landkreis-tinkturen">
+                        <div class="tinktur or"></div>
+                        <div class="tinktur sable"></div>
+                        <div class="tinktur vert"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section: Details and Population Graph -->
+            <div class="landkreis-right">
+                <table class="landkreis-details">
+                    <tr>
+                        <th>Postleitzahl</th>
+                        <td>{{ landkreis.postleitzahl }}</td>
+                    </tr>
+                    <tr>
+                        <th>District Key</th>
+                        <td>{{ landkreis.district_key }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fläche</th>
+                        <td>{{ landkreis.area }} km²</td>
+                    </tr>
+                    <tr>
+                        <th>Einwohner</th>
+                        <td>{{ landkreis.population }}</td>
+                    </tr>
+                </table>
+
+                <div class="population-chart-container">
+                    <h2>Bevölkerungsentwicklung</h2>
+                    <canvas id="populationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="landkreis-map">
+            <h2>Karte</h2>
+            <iframe src="https://www.openstreetmap.org/export/embed.html?bbox={{ landkreis.coordinates }}"></iframe>
+        </div>
+
+        <!-- Normdaten Section -->
+        <div class="landkreis-normdaten">
+            <h2>Normdaten</h2>
+            <ul>
+                <li>GND: {{ landkreis.gnd }}</li>
+                <li>GeoNames: {{ landkreis.geonames }}</li>
+                <li>Wikidata ID: {{ landkreis.wikidata_id }}</li>
+                <li>OSM Relation: {{ landkreis.osm_relation }}</li>
+            </ul>
+        </div>
+
+        <!-- Administrative Embedding Section -->
+        <div class="landkreis-administrative">
+            <h2>Administrative Einbettung</h2>
+            <p>Deutschland → Baden-Württemberg → Regierungsbezirk Freiburg → {{ landkreis.name }}</p>
+        </div>
+
+        <a href="{% url 'landkreise_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+    </div>
+
+    <script>
+        // Population Chart Data
+        const populationData = JSON.parse(document.getElementById('population-data').textContent);
+
+        const ctx = document.getElementById('populationChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: populationData.years, // Array of years
+                datasets: [{
+                    label: 'Einwohner',
+                    data: populationData.values, // Array of population values
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    pointHoverRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Jahre'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Einwohner'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
