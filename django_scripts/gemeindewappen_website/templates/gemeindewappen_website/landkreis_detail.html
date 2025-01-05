@@ -9,25 +9,70 @@
 {% block content %}
     <div class="landkreis-detail-container">
         <div class="landkreis-header">
-            <h1>{{ landkreis.name }}</h1>
-            <p class="wikidata-id">Wikidata ID: {{ landkreis.wikidata_id }}</p>
+            <h1>{{ entity.name }}</h1>
+            <p class="wikidata-id">{{ entity.type }} in {{ entity.bundesland }}</p>
+        </div>
+
+        <div class="landkreis-administrative" style="margin-top: 20px;">
+            <h3>Administrative Einbettung</h3>
+            <p>Deutschland → {{ entity.bundesland }}{%if entity.landkreis is not None %} → {{ entity.landkreis }}{% endif %} → {{ entity.name }}</p>
         </div>
 
         <div class="landkreis-info">
+            <div class="landkreis-coa">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Wappen_Zollernalbkreis.svg"
+                alt="Wappen von {{ entity.name }}" style="width: 50%; margin-top: 20px;">
+                <h3 style="margin-top: 20px;">Blasonierung</h3>
+                <p>{{ entity.blasonierung }}</p>
+                <h3 style="margin-top: 20px;">Tinkturen</h3>
+                <div class="landkreis-tinkturen">
+                    <div class="tinktur or"></div>
+                    <div class="tinktur sable"></div>
+                    <div class="tinktur vert"></div>
+                </div>
+            </div>
+
             <div class="landkreis-description">
-                <h2>Beschreibung</h2>
-                <p>{{ landkreis.description }}</p>
-            </div>
-            <div class="landkreis-population">
-                <h2>Bevölkerung</h2>
-                <p>{{ landkreis.population }}</p>
-            </div>
-            <div class="landkreis-other-info">
-                <h2>Weitere Informationen</h2>
-                <p>{{ landkreis.other_info }}</p>
+                <h3 style="text-align: left;">Basisinformationen</h3>
+                <table class="landkreis-details">
+                    <tr>
+                        <th>Postleitzahl</th>
+                        <td>{{ entity.postal_code }}</td>
+                    </tr>
+                    <tr>
+                        <th>District Key</th>
+                        <td>{{ entity.district_key }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fläche</th>
+                        <td>{{ entity.area }} km²</td>
+                    </tr>
+                    <tr>
+                        <th>Einwohner</th>
+                        <td>{{ entity.population }}</td>
+                    </tr>
+
+                </table>
+
+                <div class="landkreis-map" style="margin-top: 20px;">
+                    <h3 style="text-align: left";>Karte</h3>
+                    <iframe
+                        src="https://overpass-turbo.eu/map.html?Q=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Arelation%28{{ normdaten.openstreetmap_rel_id}}%29%3B%0Aout+geom%3B"
+                        width="95%"></iframe>
+                </div>
+                
+                <div class="landkreis-normdaten" style="margin-top: 20px;">
+                    <h3 style="text-align: left";>Normdaten</h3>
+                    <ul>
+                        <li>GND: {{ normdaten.gnd }}</li>
+                        <li>GeoNames: {{ normdaten.geonames_id }}</li>
+                        <li>Wikidata ID: {{ normdaten.wikidata_id }}</li>
+                        <li>OSM Relation: {{ normdaten.openstreetmap_rel_id }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <a href="{% url 'landkreise_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+        <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
     </div>
 {% endblock %}

@@ -12,9 +12,9 @@
 <body>
     <h1>Liste der Landkreise</h1>
     <ul>
-        {% for landkreis in landkreise %}
+        {% for entity in entities %}
         <li>
-            <a href="{% url 'landkreis_detail' landkreis.wikidata_id %}">{{ landkreis.name }}</a>
+            <a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a>
         </li>
         {% endfor %}
     </ul>    

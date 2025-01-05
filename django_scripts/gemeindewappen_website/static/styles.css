@@ -62,7 +62,7 @@ a:hover {
     gap: 20px;
 }
 
-.landkreis-description, .landkreis-population, .landkreis-other-info {
+.landkreis-description, .landkreis-population, .landkreis-other-info, .landkreis-coa {
     flex: 1 1 30%;
     min-width: 250px;
     background-color: #f9f9f9;

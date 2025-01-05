@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="landkreis-detail-container">
+        <div class="landkreis-header">
+            <h1>{{ landkreis.name }}</h1>
+            <p class="wikidata-id">Wikidata ID: {{ landkreis.wikidata_id }}</p>
+        </div>
+
+        <div class="landkreis-info">
+            <div class="landkreis-description">
+                <h2>Beschreibung</h2>
+                <p>{{ landkreis.description }}</p>
+            </div>
+            <div class="landkreis-population">
+                <h2>Bevölkerung</h2>
+                <p>{{ landkreis.population }}</p>
+            </div>
+            <div class="landkreis-other-info">
+                <h2>Weitere Informationen</h2>
+                <p>{{ landkreis.other_info }}</p>
+            </div>
+        </div>
+
+        <a href="{% url 'landkreise_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+    </div>
+{% endblock %}

@@ -2,8 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.landkreise_list, name='landkreise_list'), 
-    path('landkreise/<str:wikidata_id>/', views.landkreis_detail, name='landkreis_detail'),
+    path('', views.entity_list, name='entity_list'), 
+    path('entity/<str:wikidata_id>/', views.entity_detail, name='entity_detail'),
     path('map/', views.maps, name='map'),
     path('test/', views.test, name='test'),
 
