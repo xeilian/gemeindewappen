@@ -49,6 +49,14 @@ class Entity(models.Model):
         ('kreisfreie_stadt', 'Kreisfreie Stadt')
     ]
 
+    types = {'landkreis': 'Landkreis',
+    'ehem_landkreis': 'Ehemalige Gemeinde',
+    'gemeinde_ohne_stadtstatus': 'Gemeinde',
+    'kreisstadt': 'Kreisstadt',
+    'kreisfreie_stadt': 'Kreisfreie Stadt'
+    }
+
+
     wikidata_id = models.CharField(max_length=255, primary_key=True, default='default_value')
     name = models.CharField(max_length=255)
     coordinates = models.CharField(max_length=255)
@@ -60,6 +68,10 @@ class Entity(models.Model):
 
     class Meta:
         db_table = 'entities'
+
+    @property
+    def type_in_header(self):
+        return self.types.get(self.type, None)
 
     def __str__(self):
         return self.name

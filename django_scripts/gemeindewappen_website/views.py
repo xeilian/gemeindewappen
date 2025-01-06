@@ -9,7 +9,7 @@ def wappen_list(request):
     return render(request, 'wappen_list.html', {'wappen_list': wappen_list})
 
 def entity_list(request):
-    entities = Entity.objects.all()#.exclude(type="ehem_landkreis")
+    entities = Entity.objects.exclude(type="ehem_landkreis")
     return render(request, 'gemeindewappen_website/landkreise_list.html', {'entities': entities})
 
 def entity_detail(request, wikidata_id):
