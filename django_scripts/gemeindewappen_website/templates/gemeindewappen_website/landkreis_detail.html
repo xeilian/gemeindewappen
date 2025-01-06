@@ -2,77 +2,167 @@
 
 {% load static %}
 
-{% block head %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-{% endblock %}
-
 {% block content %}
-    <div class="landkreis-detail-container">
-        <div class="landkreis-header">
-            <h1>{{ entity.name }}</h1>
-            <p class="wikidata-id">{{ entity.type }} in {{ entity.bundesland }}</p>
-        </div>
-
-        <div class="landkreis-administrative" style="margin-top: 20px;">
-            <h3>Administrative Einbettung</h3>
-            <p>Deutschland → {{ entity.bundesland }}{%if entity.landkreis is not None %} → {{ entity.landkreis }}{% endif %} → {{ entity.name }}</p>
-        </div>
-
-        <div class="landkreis-info">
-            <div class="landkreis-coa">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Wappen_Zollernalbkreis.svg"
-                alt="Wappen von {{ entity.name }}" style="width: 50%; margin-top: 20px;">
-                <h3 style="margin-top: 20px;">Blasonierung</h3>
-                <p>{{ entity.blasonierung }}</p>
-                <h3 style="margin-top: 20px;">Tinkturen</h3>
-                <div class="landkreis-tinkturen">
-                    <div class="tinktur or"></div>
-                    <div class="tinktur sable"></div>
-                    <div class="tinktur vert"></div>
-                </div>
-            </div>
-
-            <div class="landkreis-description">
-                <h3 style="text-align: left;">Basisinformationen</h3>
-                <table class="landkreis-details">
-                    <tr>
-                        <th>Postleitzahl</th>
-                        <td>{{ entity.postal_code }}</td>
-                    </tr>
-                    <tr>
-                        <th>District Key</th>
-                        <td>{{ entity.district_key }}</td>
-                    </tr>
-                    <tr>
-                        <th>Fläche</th>
-                        <td>{{ entity.area }} km²</td>
-                    </tr>
-                    <tr>
-                        <th>Einwohner</th>
-                        <td>{{ entity.population }}</td>
-                    </tr>
-
-                </table>
-
-                <div class="landkreis-map" style="margin-top: 20px;">
-                    <h3 style="text-align: left";>Karte</h3>
-                    <iframe
-                        src="https://overpass-turbo.eu/map.html?Q=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Arelation%28{{ normdaten.openstreetmap_rel_id}}%29%3B%0Aout+geom%3B"
-                        width="95%"></iframe>
-                </div>
-                
-                <div class="landkreis-normdaten" style="margin-top: 20px;">
-                    <h3 style="text-align: left";>Normdaten</h3>
-                    <ul>
-                        <li>GND: {{ normdaten.gnd }}</li>
-                        <li>GeoNames: {{ normdaten.geonames_id }}</li>
-                        <li>Wikidata ID: {{ normdaten.wikidata_id }}</li>
-                        <li>OSM Relation: {{ normdaten.openstreetmap_rel_id }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+<div class="landkreis-detail-container" style="width: 100%">
+    <div class="landkreis-header">
+        <h1>{{ entity.name }}</h1>
+        <p class="wikidata-id">{{ entity.type }} in {{ entity.bundesland }}</p>
     </div>
+
+    <div class="landkreis-administrative" style="margin-top: 20px;">
+        <h3>Administrative Einbettung</h3>
+        <p>Deutschland → {{ entity.bundesland }}{%if entity.landkreis is not None %} → {{ entity.landkreis }}{% endif %} → {{ entity.name }}</p>
+    </div>
+    <div class="landkreis-info">
+        <div class="landkreis-coa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Wappen_Zollernalbkreis.svg"
+            alt="Wappen von {{ entity.name }}" style="width: 50%; margin-top: 20px;">
+            <h3 style="margin-top: 20px;">Blasonierung</h3>
+            <p>{{ entity.blasonierung }}</p>
+            <h3 style="margin-top: 20px;">Tinkturen</h3>
+            <div class="landkreis-tinkturen">
+                <div class="tinktur or"></div>
+                <div class="tinktur sable"></div>
+                <div class="tinktur vert"></div>
+            </div>
+        </div>
+
+        <div class="landkreis-description">
+            <h3 style="text-align: left;">Basisinformationen</h3>
+            <table class="landkreis-details">
+                <tr>
+                    <th>Postleitzahl</th>
+                    <td>{{ entity.postal_code }}</td>
+                </tr>
+                <tr>
+                    <th>District Key</th>
+                    <td>{{ entity.district_key }}</td>
+                </tr>
+                <tr>
+                    <th>Fläche</th>
+                    <td>{{ entity.area }} km²</td>
+                </tr>
+                <tr>
+                    <th>Einwohner</th>
+                    <td>{{ entity.population }}</td>
+                </tr>
+
+            </table>
+
+            <div class="landkreis-map" style="margin-top: 20px;">
+                <h3 style="text-align: left";>Karte</h3>
+                <iframe
+                    src="https://overpass-turbo.eu/map.html?Q=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Arelation%28{{ normdaten.openstreetmap_rel_id}}%29%3B%0Aout+geom%3B"
+                    width="95%"></iframe>
+            </div>
+            
+            <div class="landkreis-normdaten" style="margin-top: 20px;">
+                <h3 style="text-align: left";>Normdaten</h3>
+                    <div class="normdaten-container">
+                        <!-- Obere Reihe -->
+                        <div class="normdaten-row">
+                            <div class="normdaten-item">
+                                <a href="https://d-nb.info/gnd/{{ normdaten.gnd }}" target="_blank" title="GND">
+                                    <img src="/static/icons/gnd_logo.png" alt="GND" class="icon">
+                                </a>
+                                <small><b>GND</b><br>{{ normdaten.gnd }}</small>
+                            </div>
+                            <div class="normdaten-item">
+                                <a href="https://www.geonames.org/{{ normdaten.geonames_id }}" target="_blank" title="GeoNames">
+                                    <img src="/static/icons/geonames.ico" alt="GeoNames" class="icon">
+                                </a>
+                                <small><b>Geonames</b><br>{{ normdaten.geonames_id }}</small>
+                            </div>
+                            <div class="normdaten-item">
+                                <a href="https://www.wikidata.org/wiki/{{ normdaten.wikidata_id }}" target="_blank" title="Wikidata">
+                                    <img src="/static/icons/wikidata.png" alt="Wikidata" class="icon">
+                                </a>
+                                <small><b>Wikidata</b><br>{{ normdaten.wikidata_id }}</small>
+                            </div>
+                            <div class="normdaten-item">
+                                <a href="https://www.openstreetmap.org/relation/{{ normdaten.openstreetmap_rel_id }}" target="_blank" title="OpenStreetMap">
+                                    <img src="/static/icons/openstreetmap.png" alt="OpenStreetMap" class="icon">
+                                </a>
+                                <small><b>OpenStreetMap</b><br>{{ normdaten.openstreetmap_rel_id }}</small>
+                            </div>
+                        </div>
+                        <div class="normdaten-row">
+                            <div class="normdaten-item">
+                                <a href="{{ normdaten.sitelink_de }}" target="_blank" title="Wikipedia Deutsch">
+                                    <img src="/static/icons/wikipedia.png" alt="Wikipedia (de)" class="icon">
+                                </a>
+                                <small><b>Wikipedia (de)</b></small>
+                            </div>
+                            <div class="normdaten-item">
+                                <a href="{{ normdaten.sitelink_en }}" target="_blank" title="Wikipedia Englisch">
+                                    <img src="/static/icons/wikipedia.png" alt="Wikipedia (en)" class="icon">
+                                </a>
+                                <small><b>Wikipedia (en)</b></small>
+                            </div>
+                            <div class="normdaten-item">
+                                <a href="{{ normdaten.sitelink_fr }}" target="_blank" title="Wikipedia Französisch">
+                                    <img src="/static/icons/wikipedia.png" alt="Wikipedia (fr)" class="icon">
+                                </a>
+                                <small><b>Wikipedia (fr)</b></small>
+                            </div>
+                        </div>
+                    </div>                        
+                </div>                  
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+</div>
+
+<style>
+    /* Container für die beiden Reihen */
+    .normdaten-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column; /* Zwei Reihen übereinander */
+        gap: 0px; /* Abstand zwischen den Reihen */
+        align-items: center; /* Zentriert die Reihen */
+    }
+
+    /* Jede Reihe */
+    .normdaten-row {
+        display: flex; /* Icons nebeneinander */
+        justify-content: center; /* Zentriert die Icons */
+        gap: 60%; /* Abstand zwischen den Icons */
+    }
+
+    /* Jedes einzelne Symbol + Text */
+    .normdaten-item {
+        text-align: center; /* Text zentriert */
+        display: flex;
+        flex-direction: column; /* Text unter das Icon */
+        align-items: center;
+        width: 25px; /* Gleiche Breite für alle Elemente */
+        white-space: nowrap;
+    }
+
+    /* Icons */
+    .normdaten-item .icon {
+        width: 30px; /* Einheitliche Breite */
+        height: 30px; /* Einheitliche Höhe */
+        object-fit: contain; /* Beibehaltung des Seitenverhältnisses */
+        margin-bottom: 0px; /* Abstand zum Text */
+        border-radius: 12px; /* Runde Ecken */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sanfter Schatten */
+        transition: transform 0.2s ease-in-out; /* Hover-Effekt */
+    }
+
+    /* Hover-Effekt für Icons */
+    .normdaten-item a:hover .icon {
+        transform: scale(1.1); /* Leichte Vergrößerung beim Hover */
+    }
+
+    /* Text unter den Icons */
+    .normdaten-item small {
+        font-size: 9px; /* Schriftgröße */
+        color: #333; /* Dezente Textfarbe */
+        margin-bottom: 20px;
+    }
+</style>
 {% endblock %}

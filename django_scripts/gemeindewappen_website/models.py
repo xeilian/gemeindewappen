@@ -55,10 +55,6 @@ class Entity(models.Model):
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, blank=True, null=True)
     coordinates = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=255)
-    #district_key = models.CharField(max_length=255)
-    #gnd = models.CharField(max_length=255)
-    #geonames_id = models.CharField(max_length=255)
-    #openstreetmap_rel_id = models.CharField(max_length=255)
     bundesland = models.CharField(max_length=255)
     landkreis = models.CharField(max_length=255)
 
@@ -75,7 +71,10 @@ class Normdaten(models.Model):
     gnd = models.CharField(max_length=255)
     geonames_id = models.CharField(max_length=255)
     openstreetmap_rel_id = models.CharField(max_length=255)
-    
+    sitelink_de = models.CharField(max_length=255)
+    sitelink_en = models.CharField(max_length=255)
+    sitelink_fr = models.CharField(max_length=255)
+
     class Meta:
         db_table = 'normdaten'
 
