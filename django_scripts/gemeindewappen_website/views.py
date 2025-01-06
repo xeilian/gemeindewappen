@@ -15,10 +15,12 @@ def entity_list(request):
 def entity_detail(request, wikidata_id):
     entity = Entity.objects.get(wikidata_id=wikidata_id)
     normdaten = Normdaten.objects.get(wikidata_id=wikidata_id)
+    wappen = Wappen.objects.get(wikidata_id=wikidata_id)
 
     context = {
         'entity': entity,
-        'normdaten': normdaten
+        'normdaten': normdaten,
+        'wappen': wappen
     }
 
     return render(request, 'gemeindewappen_website/landkreis_detail.html', context)
