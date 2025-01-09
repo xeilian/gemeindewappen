@@ -78,3 +78,16 @@ class Population(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class Area(models.Model):
+    wikidata_id = models.CharField(max_length=255)
+    year = models.CharField(max_length=255)
+    area_value = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "area"
+
+    def __str__(self):
+        return self.name
+

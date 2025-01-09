@@ -32,23 +32,28 @@
         <div class="entity-description">
             <h3 style="text-align: left;">Basisinformationen</h3>
             <table class="entity-details">
+                {% if entity.postal_code != "" and entity.postal_code != None %}
                 <tr>
                     <th>Postleitzahl</th>
                     <td>{{ entity.postal_code }}</td>
                 </tr>
+                {% endif %}
                 <tr>
                     <th>District Key</th>
                     <td>{{ entity.district_key }}</td>
                 </tr>
-                <tr>
-                    <th>Fläche</th>
-                    <td>{{ entity.area }} km²</td>
-                </tr>
-                <tr>
-                    <th>Einwohner</th>
-                    <td>{{ entity.population }}</td>
-                </tr>
-
+                {% if area_filtered %}
+                    <tr>
+                        <th>Fläche</th>
+                        <td>{{ area_filtered.area_value }}  km²</td>
+                    </tr>
+                {% endif %}
+                {% if population_filtered %}
+                    <tr>
+                        <th>Einwohner</th>
+                        <td>{{ population_filtered.population_value }} {% if population_filtered.year != None %}({{ population_filtered.year }}){% endif %}</td>
+                    </tr>
+                {% endif %}
             </table>
 
             <div class="entity-map" style="margin-top: 20px;">
@@ -68,7 +73,7 @@
                     {% endif %}
                 {% endfor %} -->
 
-            <canvas id="populationChart" width="800" height="400"></canvas>
+            <canvas id="populationChart"></canvas>
             <script>
                 const labels = [
                     {% for i in population %}
