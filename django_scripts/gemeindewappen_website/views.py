@@ -5,7 +5,7 @@ from .models import Wappen, Entity, Normdaten, Population
 
 def entity_list(request):
     entities = Entity.objects.exclude(type="ehem_landkreis")
-    return render(request, 'gemeindewappen_website/landkreise_list.html', {'entities': entities})
+    return render(request, 'frontpage.html', {'entities': entities})
 
 def entity_detail(request, wikidata_id):
     entity = Entity.objects.get(wikidata_id=wikidata_id)
@@ -20,7 +20,10 @@ def entity_detail(request, wikidata_id):
         'population': population
     }
 
-    return render(request, 'gemeindewappen_website/landkreis_detail.html', context)
+    return render(request, 'landkreis_detail.html', context)
 
 def maps(request):
-    return render(request, 'gemeindewappen_website/map.html')
+    return render(request, 'map.html')
+
+def about(request):
+    return render(request, 'about.html')

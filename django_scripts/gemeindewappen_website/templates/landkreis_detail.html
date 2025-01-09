@@ -5,33 +5,33 @@
 {% endblock %}
 
 {% block content %}
-<div class="landkreis-detail-container" style="width: 100%">
-    <div class="landkreis-header">
+<div class="entity-detail-container" style="width: 100%">
+    <div class="entity-header">
         <h1>{{ entity.name }}</h1>
         <p class="wikidata-id">{{ entity.type_in_header }} in {{ entity.bundesland }}</p>
     </div>
 
-    <div class="landkreis-administrative" style="margin-top: 20px;">
+    <div class="entity-administrative" style="margin-top: 20px;">
         <h3>Administrative Einbettung</h3>
-        <p>Deutschland → {{ entity.bundesland }}{%if entity.landkreis is not None %} → {{ entity.landkreis }}{% endif %} → {{ entity.name }}</p>
+        <p>Deutschland → {{ entity.bundesland }}{%if entity.entity is not None %} → {{ entity.entity }}{% endif %} → {{ entity.name }}</p>
     </div>
-    <div class="landkreis-info">
-        <div class="landkreis-coa">
+    <div class="entity-info">
+        <div class="entity-coa">
             <img src="{{ wappen.coat_of_arms_image }}"
             alt="Wappen von {{ entity.name }}" style="width: 50%; margin-top: 20px;">
             <h3 style="margin-top: 20px;">Blasonierung</h3>
             <p>{{ entity.blasonierung }}</p>
             <h3 style="margin-top: 20px;">Tinkturen</h3>
-            <div class="landkreis-tinkturen">
+            <div class="entity-tinkturen">
                 <div class="tinktur or"></div>
                 <div class="tinktur sable"></div>
                 <div class="tinktur vert"></div>
             </div>
         </div>
 
-        <div class="landkreis-description">
+        <div class="entity-description">
             <h3 style="text-align: left;">Basisinformationen</h3>
-            <table class="landkreis-details">
+            <table class="entity-details">
                 <tr>
                     <th>Postleitzahl</th>
                     <td>{{ entity.postal_code }}</td>
@@ -51,7 +51,7 @@
 
             </table>
 
-            <div class="landkreis-map" style="margin-top: 20px;">
+            <div class="entity-map" style="margin-top: 20px;">
                 <h3 style="text-align: left";>Karte</h3>
                 <iframe
                     src="https://overpass-turbo.eu/map.html?Q=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Arelation%28{{ normdaten.openstreetmap_rel_id}}%29%3B%0Aout+geom%3B"
@@ -117,7 +117,7 @@
             </div> 
 
             
-            <div class="landkreis-normdaten" style="margin-top: 20px;">
+            <div class="entity-normdaten" style="margin-top: 20px;">
                 <h3 style="text-align: left";>Normdaten</h3>
                     <div class="normdaten-container">
                         <!-- Obere Reihe -->
@@ -172,7 +172,6 @@
             </div>
         </div>
     </div>
-
-    <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
+    <!-- <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a> -->
 </div>
 {% endblock %}
