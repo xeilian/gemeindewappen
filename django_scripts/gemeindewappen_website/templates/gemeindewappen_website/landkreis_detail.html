@@ -1,6 +1,8 @@
 {% extends "base_generic.html" %}
-
 {% load static %}
+{% block title %}
+    {{ entity.name }}
+{% endblock %}
 
 {% block content %}
 <div class="landkreis-detail-container" style="width: 100%">

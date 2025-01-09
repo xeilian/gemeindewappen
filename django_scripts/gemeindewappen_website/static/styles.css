@@ -10,6 +10,11 @@ body {
     background-color: #f4f7fc;
     color: #333;
     line-height: 1.6;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    margin: 0;
+    flex-direction: column;
 }
 
 h1, h2 {
@@ -30,6 +35,88 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+main {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #f4f7fc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 0px;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Headerelement (base_generic) */
+.header-box {
+    position: sticky;
+    top: 0;
+    background-color: #0056b3;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 1000;
+}
+
+.header-box h1 {
+    font-size: 1.8rem; 
+    color: #ffffff;
+    margin-top: 6px;
+    margin-left: 15px;
+    text-align: left;
+}
+
+.header-box .links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.header-box .links a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    width: 40%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-box .links a i {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+.header-box .links a:hover {
+    background-color: #e6e6e6;
+}
+
+
+
+
+
+
+
 
 /* Styling für den Header der Landkreise */
 .landkreis-detail-container {
