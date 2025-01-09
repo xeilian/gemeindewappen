@@ -56,6 +56,65 @@
                     width="95%"></iframe>
             </div>
             
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <div style="margin-top: 20px;">
+                <h3 style="text-align: left";>Population</h3>
+                <!-- {% for i in population %}
+                    {% if i.wikidata_id == entity.wikidata_id %}
+                        {{ i.year }}: {{ i.population_value }}<br>
+                    {% endif %}
+                {% endfor %} -->
+
+            <canvas id="populationChart" width="800" height="400"></canvas>
+            <script>
+                const labels = [
+                    {% for i in population %}
+                        {% if i.wikidata_id == entity.wikidata_id %}
+                            "{{ i.year }}"{% if not loop.last %},{% endif %}
+                        {% endif %}
+                    {% endfor %}
+                ];
+
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Population',
+                        data: [
+                            {% for i in population %}
+                                {% if i.wikidata_id == entity.wikidata_id %}
+                                    {{ i.population_value }}{% if not loop.last %},{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        ],
+                        backgroundColor: 'rgba(0, 86, 179, 0.2)',
+                        borderColor: 'rgb(0, 86, 179)',
+                        borderWidth: 1,
+                        fill: false,
+                    }]
+                };
+
+                const config = {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false,
+                            }
+                        },
+                    }
+                };
+
+                const ctx = document.getElementById('populationChart').getContext('2d');
+                new Chart(ctx, config);
+
+            </script>
+
+            </div> 
+
+            
             <div class="landkreis-normdaten" style="margin-top: 20px;">
                 <h3 style="text-align: left";>Normdaten</h3>
                     <div class="normdaten-container">
@@ -115,54 +174,48 @@
     <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a>
 </div>
 
-<style>
-    /* Container für die beiden Reihen */
-    .normdaten-container {
-        width: 100%;
-        display: flex;
-        flex-direction: column; /* Zwei Reihen übereinander */
-        gap: 0px; /* Abstand zwischen den Reihen */
-        align-items: center; /* Zentriert die Reihen */
-    }
+<!-- <style>
+.normdaten-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+}
 
-    /* Jede Reihe */
-    .normdaten-row {
-        display: flex; /* Icons nebeneinander */
-        justify-content: center; /* Zentriert die Icons */
-        gap: 60%; /* Abstand zwischen den Icons */
-    }
+.normdaten-row {
+    display: flex;
+    justify-content: center;
+    gap: 60%;
+}
 
-    /* Jedes einzelne Symbol + Text */
-    .normdaten-item {
-        text-align: center; /* Text zentriert */
-        display: flex;
-        flex-direction: column; /* Text unter das Icon */
-        align-items: center;
-        width: 25px; /* Gleiche Breite für alle Elemente */
-        white-space: nowrap;
-    }
+.normdaten-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25px;
+    white-space: nowrap;
+}
 
-    /* Icons */
-    .normdaten-item .icon {
-        width: 30px; /* Einheitliche Breite */
-        height: 30px; /* Einheitliche Höhe */
-        object-fit: contain; /* Beibehaltung des Seitenverhältnisses */
-        margin-bottom: 0px; /* Abstand zum Text */
-        border-radius: 12px; /* Runde Ecken */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sanfter Schatten */
-        transition: transform 0.2s ease-in-out; /* Hover-Effekt */
-    }
+.normdaten-item .icon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-bottom: 0px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
 
-    /* Hover-Effekt für Icons */
-    .normdaten-item a:hover .icon {
-        transform: scale(1.1); /* Leichte Vergrößerung beim Hover */
-    }
+.normdaten-item a:hover .icon {
+    transform: scale(1.1);
+}
 
-    /* Text unter den Icons */
-    .normdaten-item small {
-        font-size: 9px; /* Schriftgröße */
-        color: #333; /* Dezente Textfarbe */
-        margin-bottom: 20px;
-    }
-</style>
+.normdaten-item small {
+    font-size: 9px;
+    color: #333;
+    margin-bottom: 20px;
+}
+</style> -->
 {% endblock %}

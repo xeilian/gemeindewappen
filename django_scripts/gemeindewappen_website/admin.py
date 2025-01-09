@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Wappen, Tinktur
+from .models import Wappen
 
 admin.site.register(Wappen)
-admin.site.register(Tinktur)

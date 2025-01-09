@@ -103,7 +103,6 @@ a:hover {
     }
 }
 
-/* Stil für die Navigationslinks, z.B. Zurück-Link */
 .nav-link {
     display: inline-block;
     background-color: #007bff;
@@ -118,49 +117,45 @@ a:hover {
     background-color: #0056b3;
 }
 
-/* Container für die beiden Reihen */
 .normdaten-container {
+    width: 100%;
     display: flex;
-    flex-direction: column; /* Zwei Reihen übereinander */
-    gap: 30px; /* Abstand zwischen den Reihen */
-    align-items: center; /* Zentriert die Reihen */
-}
-
-/* Jede Reihe */
-.normdaten-row {
-    display: flex; /* Icons nebeneinander */
-    justify-content: center; /* Zentriert die Icons */
-    gap: 40px; /* Abstand zwischen den Icons */
-}
-
-/* Jedes einzelne Symbol + Text */
-.normdaten-item {
-    text-align: center; /* Text zentriert */
-    display: flex;
-    flex-direction: column; /* Text unter das Icon */
+    flex-direction: column;
+    gap: 0px;
     align-items: center;
-    width: 150px; /* Gleiche Breite für alle Elemente */
 }
 
-/* Icons */
+.normdaten-row {
+    display: flex;
+    justify-content: center;
+    gap: 60%;
+}
+
+.normdaten-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25px;
+    white-space: nowrap;
+}
+
 .normdaten-item .icon {
-    width: 120px; /* Einheitliche Breite */
-    height: 120px; /* Einheitliche Höhe */
-    object-fit: contain; /* Beibehaltung des Seitenverhältnisses */
-    margin-bottom: 10px; /* Abstand zum Text */
-    border-radius: 12px; /* Runde Ecken */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sanfter Schatten */
-    transition: transform 0.2s ease-in-out; /* Hover-Effekt */
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-bottom: 0px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
 }
 
-/* Hover-Effekt für Icons */
 .normdaten-item a:hover .icon {
-    transform: scale(1.1); /* Leichte Vergrößerung beim Hover */
+    transform: scale(1.1);
 }
 
-/* Text unter den Icons */
 .normdaten-item small {
-    font-size: 14px; /* Schriftgröße */
-    color: #333; /* Dezente Textfarbe */
-    margin-top: 5px;
+    font-size: 9px;
+    color: #333;
+    margin-bottom: 20px;
 }

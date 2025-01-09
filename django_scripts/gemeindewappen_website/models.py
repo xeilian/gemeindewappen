@@ -56,7 +56,7 @@ class Normdaten(models.Model):
 
 class Wappen(models.Model):
     wikidata_id = models.CharField(max_length=255)
-    coat_of_arms_image = models.TextField()
+    coat_of_arms_image = models.CharField(max_length=255)
     # blasonierung = models.TextField()
     # koordinaten = models.CharField(max_length=100, blank=True)
     # bbox = models.CharField(max_length=200, blank=True)
@@ -68,11 +68,13 @@ class Wappen(models.Model):
         return self.name
 
 
-class Tinktur(models.Model):
-    wappen = models.ForeignKey(Wappen, related_name='tinkturen', on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    farbe = models.CharField(max_length=20) 
-    textfarbe = models.CharField(max_length=20, default='#FFFFFF')  # Standardmäßig weißer Text
+class Population(models.Model):
+    wikidata_id = models.CharField(max_length=255)
+    year = models.CharField(max_length=255)
+    population_value = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "population"
 
     def __str__(self):
         return self.name

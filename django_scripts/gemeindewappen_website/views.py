@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from .models import Wappen, Entity, Normdaten
-import sqlite3
+from .models import Wappen, Entity, Normdaten, Population
 
 # Create your views here.
 
@@ -16,11 +15,13 @@ def entity_detail(request, wikidata_id):
     entity = Entity.objects.get(wikidata_id=wikidata_id)
     normdaten = Normdaten.objects.get(wikidata_id=wikidata_id)
     wappen = Wappen.objects.get(wikidata_id=wikidata_id)
+    population = Population.objects.filter(wikidata_id=wikidata_id).order_by('year')
 
     context = {
         'entity': entity,
         'normdaten': normdaten,
-        'wappen': wappen
+        'wappen': wappen,
+        'population': population
     }
 
     return render(request, 'gemeindewappen_website/landkreis_detail.html', context)
