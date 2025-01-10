@@ -111,6 +111,57 @@ html {
     background-color: #e6e6e6;
 }
 
+.header-line {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.search-form {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    height: 27px;
+    width: 250px;
+    margin-right: 10px;
+
+}
+
+.search-button {
+    background-color: #ffffff;
+    border: none;
+    height: 27px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+
+}
+
+.search-button i {
+    font-size: 1.0rem;
+    color: #0056b3;
+}
+
 
 /* Entity-Stylings */
 .entity-detail-container {

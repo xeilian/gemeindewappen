@@ -11,7 +11,15 @@
 </head>
 <body>
     <header class="header-box">
-        <h1><a href="/" style="color: #ffffff; text-decoration: none;">Gemeindewappen</a></h1>
+        <div class="header-line">
+            <h1><a href="/" style="color: #ffffff; text-decoration: none;">Gemeindewappen</a></h1>
+            <form method="get" action="{% url 'search' %}" class="search-form">
+                <input type="text" name="q" value="{{ query }}" placeholder="Suchbegriff eingeben..." class="search-input" />
+                <button type="submit" class="search-button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
         <div class="links">
             <a href="/"><i class="bi bi-house-door"></i> Übersicht</a>
             <a href="#"><i class="bi bi-shield"></i> Wappen</a>

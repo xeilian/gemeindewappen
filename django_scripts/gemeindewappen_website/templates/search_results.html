@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}
+    Suchergebnisse
+{% endblock %}
+
+{% block content%}
+<div class="entity-detail-container" style="width: 100%;">
+<h1>Suchergebnisse</h1>
+
+{% if results %}
+    <ul>
+        {% for entity in results %}
+            {% if entity.type != "ehem_landkreis" %}
+            <b><a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a></b> <small>({{ entity.type_in_header }} in {{ entity.bundesland }})</small><br>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Keine Ergebnisse gefunden.</p>
+{% endif %}
+</div>
+{% endblock %}

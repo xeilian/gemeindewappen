@@ -5,5 +5,6 @@ urlpatterns = [
     path('', views.entity_list, name='entity_list'), 
     path('entity/<str:wikidata_id>/', views.entity_detail, name='entity_detail'),
     path('map/', views.maps, name='map'),
-    path('about/', views.about, name='about')
+    path('about/', views.about, name='about'),
+    path('search/', views.search, name='search')
 ]

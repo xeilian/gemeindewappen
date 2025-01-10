@@ -46,3 +46,24 @@ def maps(request):
 
 def about(request):
     return render(request, 'about.html')
+
+from django.shortcuts import render
+from .models import Entity
+from django.db.models import Q
+
+def search(request):
+    query = request.GET.get('q', '')
+    
+    if query:
+        results = Entity.objects.filter(
+            Q(name__icontains=query)
+        )
+    else:
+        results = Entity.objects.all()
+    
+    context = {
+        'results': results,
+        'query': query,
+    }
+    return render(request, 'search_results.html', context)
+

@@ -13,14 +13,14 @@
     <title>Landkreise</title>
 </head>
 <body>
+    <div class="entity-detail-container" style="width: 100%;">
     <h1>Liste der Landkreise</h1>
     <ul>
         {% for entity in entities %}
-        <li>
-            <a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a>
-        </li>
+            <b><a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a></b> <small>({{ entity.type_in_header }} in {{ entity.bundesland }})</small><br>
         {% endfor %}
-    </ul>    
+    </ul>
+    </div>
 </body>
 </html>
 {% endblock %}
