@@ -10,4 +10,5 @@ ALLGEMEINE_NOTIZEN.md
 02.1_extract data from the german 'kreisfreie' cities.py
 .vscode
 leo.csv
-__pycache__
+__pycache__#
+rasteranalysis.py
