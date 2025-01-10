@@ -16,12 +16,13 @@ class Entity(models.Model):
     'kreisfreie_stadt': 'Kreisfreie Stadt'
     }
 
-
-    wikidata_id = models.CharField(max_length=255, primary_key=True, default='default_value')
+    wikidata_id = models.CharField(max_length=255)
+    database_id = models.CharField(max_length=255, primary_key=True, default='default_value')
     name = models.CharField(max_length=255)
     coordinates = models.CharField(max_length=255)
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, blank=True, null=True)
     coordinates = models.CharField(max_length=255)
+    insignia = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=255)
     bundesland = models.CharField(max_length=255)
     landkreis = models.CharField(max_length=255)
@@ -40,6 +41,8 @@ class Normdaten(models.Model):
     wikidata_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     district_key = models.CharField(max_length=255)
+    municipality_key = models.CharField(max_length=255)
+    regional_key = models.CharField(max_length=255)
     gnd = models.CharField(max_length=255)
     geonames_id = models.CharField(max_length=255)
     openstreetmap_rel_id = models.CharField(max_length=255)

@@ -124,7 +124,6 @@ html {
 
 .entity-header {
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .entity-header h1 {
@@ -137,13 +136,34 @@ html {
     color: #6c757d;
 }
 
+.entity-administrative {
+    flex: 1 1 30%;
+    min-width: 250px;
+    /* background-color: #f9f9f9; */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .entity-info {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.entity-description, .entity-population, .entity-other-info, .entity-coa {
+.entity-description {
+    flex: 1 1 30%;
+    min-width: 250px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.entity-coa {
     flex: 1 1 30%;
     min-width: 250px;
     background-color: #f9f9f9;

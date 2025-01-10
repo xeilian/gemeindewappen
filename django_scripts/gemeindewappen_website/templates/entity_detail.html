@@ -5,18 +5,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="entity-detail-container" style="width: 100%">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<div class="entity-detail-container" style="width: 100%;">
     <div class="entity-header">
-        <h1>{{ entity.name }}</h1>
+        <h1 style="height: 70px; padding: 10px;">{{ entity.name }}</h1>
         <p class="wikidata-id">{{ entity.type_in_header }} in {{ entity.bundesland }}</p>
     </div>
 
-    <div class="entity-administrative" style="margin-top: 20px;">
+    <div class="entity-administrative" style="margin-top: 20px; margin-bottom: 20px;">
         <h3>Administrative Einbettung</h3>
-        <p>Deutschland → {{ entity.bundesland }}{%if entity.entity is not None %} → {{ entity.entity }}{% endif %} → {{ entity.name }}</p>
+        <p>Deutschland → {{ entity.bundesland }}{%if entity.landkreis %} → {{ entity.landkreis }}{% endif %} → {{ entity.name }}</p>
     </div>
-    <div class="entity-info">
-        <div class="entity-coa">
+    <div class="entity-info" >
+        <div class="entity-coa" style="margin-left: 20px; margin-bottom: 20px;">
             <img src="{{ wappen.coat_of_arms_image }}"
             alt="Wappen von {{ entity.name }}" style="width: 50%; margin-top: 20px;">
             <h3 style="margin-top: 20px;">Blasonierung</h3>
@@ -28,45 +29,95 @@
                 <div class="tinktur vert"></div>
             </div>
         </div>
+        <style>
+        .entity-details {
+            width: 97%;
+            border-collapse: collapse;
+        }
 
-        <div class="entity-description">
-            <h3 style="text-align: left;">Basisinformationen</h3>
+        .entity-details th {
+            width: 40%;
+            text-align: left;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .entity-details td {
+            width: 55%;
+            text-align: left;
+            padding: 8px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+        }
+
+        .entity-details tr {
+            border-bottom: 1px solid #ddd; 
+            border-top: 1px solid #ddd;
+        }
+        </style>
+        <div class="entity-description" style="margin-right: 20px; margin-bottom: 20px;"">
+            <h3 style="text-align: left; margin-bottom: 10px;">Basisinformationen</h3>
             <table class="entity-details">
-                {% if entity.postal_code != "" and entity.postal_code != None %}
+                <tr>
+                    <th>Datenbank-ID</th>
+                    <td>{{ entity.database_id }}</td>
+                </tr>
+                {% if entity.insignia and entity.type != "landkreis" %}
+                <tr>
+                    <th>Kennzeichen</th>
+                    <td>{{ entity.insignia }}</td>
+                </tr>
+                {% endif %}
+                {% if entity.postal_code and entity.type != "landkreis" %}
                 <tr>
                     <th>Postleitzahl</th>
                     <td>{{ entity.postal_code }}</td>
                 </tr>
                 {% endif %}
-                <tr>
-                    <th>District Key</th>
-                    <td>{{ entity.district_key }}</td>
-                </tr>
                 {% if area_filtered %}
                     <tr>
                         <th>Fläche</th>
                         <td>{{ area_filtered.area_value }}  km²</td>
                     </tr>
                 {% endif %}
-                {% if population_filtered %}
+                {% if population_filter %}
                     <tr>
                         <th>Einwohner</th>
-                        <td>{{ population_filtered.population_value }} {% if population_filtered.year != None %}({{ population_filtered.year }}){% endif %}</td>
+                        <td>{{ population_filter.population_value }} {% if population_filter.year != None %}({{ population_filter.year }}){% endif %}</td>
                     </tr>
                 {% endif %}
+                {% if normdaten.district_key != None %}
+                    <tr>
+                        <th>Kreisschlüssel</th>
+                        <td>{{ normdaten.district_key }}</td>
+                    </tr>
+                {% endif %}
+                {% if normdaten.municipality_key != None %}
+                    <tr>
+                        <th>Gemeindeschlüssel</th>
+                        <td>{{ normdaten.municipality_key }}</td>
+                    </tr>
+                {% endif %}
+                {% if normdaten.regional_key != None %}
+                    <tr>
+                        <th>Regionalschlüssel</th>
+                        <td>{{ normdaten.regional_key }}</td>
+                    </tr>
+                {% endif %}                
             </table>
 
             <div class="entity-map" style="margin-top: 20px;">
-                <h3 style="text-align: left";>Karte</h3>
+                <h3 style="text-align: left; margin-bottom: 10px;">Karte</h3>
                 <iframe
                     src="https://overpass-turbo.eu/map.html?Q=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%0Arelation%28{{ normdaten.openstreetmap_rel_id}}%29%3B%0Aout+geom%3B"
-                    width="95%"></iframe>
+                    width="95%" height="200px"></iframe>
             </div>
             
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
             <div style="margin-top: 20px;">
-                <h3 style="text-align: left";>Population</h3>
+                <h3 style="text-align: left; margin-bottom: 10px;">Population</h3>
                 <!-- {% for i in population %}
                     {% if i.wikidata_id == entity.wikidata_id %}
                         {{ i.year }}: {{ i.population_value }}<br>
@@ -123,55 +174,68 @@
 
             
             <div class="entity-normdaten" style="margin-top: 20px;">
-                <h3 style="text-align: left";>Normdaten</h3>
+                <h3 style="text-align: left; margin-bottom: 10px;">Normdaten</h3>
                     <div class="normdaten-container">
-                        <!-- Obere Reihe -->
                         <div class="normdaten-row">
+                            {% if normdaten.gnd %}
                             <div class="normdaten-item">
                                 <a href="https://d-nb.info/gnd/{{ normdaten.gnd }}" target="_blank" title="GND">
                                     <img src="/static/icons/gnd_logo.png" alt="GND" class="icon">
                                 </a>
                                 <small><b>GND</b><br>{{ normdaten.gnd }}</small>
                             </div>
+                            {% endif %}
+                            {% if normdaten.geonames_id %}
                             <div class="normdaten-item">
                                 <a href="https://www.geonames.org/{{ normdaten.geonames_id }}" target="_blank" title="GeoNames">
                                     <img src="/static/icons/geonames.ico" alt="GeoNames" class="icon">
                                 </a>
                                 <small><b>Geonames</b><br>{{ normdaten.geonames_id }}</small>
                             </div>
+                            {% endif %}
+                            {% if normdaten.wikidata_id %}
                             <div class="normdaten-item">
                                 <a href="https://www.wikidata.org/wiki/{{ normdaten.wikidata_id }}" target="_blank" title="Wikidata">
                                     <img src="/static/icons/wikidata.png" alt="Wikidata" class="icon">
                                 </a>
                                 <small><b>Wikidata</b><br>{{ normdaten.wikidata_id }}</small>
                             </div>
+                            {% endif %}
+                            {% if normdaten.openstreetmap_rel_id %}
                             <div class="normdaten-item">
                                 <a href="https://www.openstreetmap.org/relation/{{ normdaten.openstreetmap_rel_id }}" target="_blank" title="OpenStreetMap">
                                     <img src="/static/icons/openstreetmap.png" alt="OpenStreetMap" class="icon">
                                 </a>
                                 <small><b>OpenStreetMap</b><br>{{ normdaten.openstreetmap_rel_id }}</small>
                             </div>
-                        </div>
-                        <div class="normdaten-row">
-                            <div class="normdaten-item">
-                                <a href="{{ normdaten.sitelink_de }}" target="_blank" title="Wikipedia Deutsch">
-                                    <img src="/static/icons/wikipedia.png" alt="Wikipedia (de)" class="icon">
-                                </a>
-                                <small><b>Wikipedia (de)</b></small>
+                            {% endif %}
                             </div>
-                            <div class="normdaten-item">
-                                <a href="{{ normdaten.sitelink_en }}" target="_blank" title="Wikipedia Englisch">
-                                    <img src="/static/icons/wikipedia.png" alt="Wikipedia (en)" class="icon">
-                                </a>
-                                <small><b>Wikipedia (en)</b></small>
+                            <div class="normdaten-row">
+                                {% if normdaten.sitelink_de %}
+                                <div class="normdaten-item">
+                                    <a href="{{ normdaten.sitelink_de }}" target="_blank" title="Wikipedia Deutsch">
+                                        <img src="/static/icons/wikipedia.png" alt="Wikipedia (de)" class="icon">
+                                    </a>
+                                    <small><b>Wikipedia (de)</b></small>
+                                </div>
+                                {% endif %}
+                                {% if normdaten.sitelink_en %}
+                                <div class="normdaten-item">
+                                    <a href="{{ normdaten.sitelink_en }}" target="_blank" title="Wikipedia Englisch">
+                                        <img src="/static/icons/wikipedia.png" alt="Wikipedia (en)" class="icon">
+                                    </a>
+                                    <small><b>Wikipedia (en)</b></small>
+                                </div>
+                                {% endif %}
+                                {% if normdaten.sitelink_fr %}
+                                <div class="normdaten-item">
+                                    <a href="{{ normdaten.sitelink_fr }}" target="_blank" title="Wikipedia Französisch">
+                                        <img src="/static/icons/wikipedia.png" alt="Wikipedia (fr)" class="icon">
+                                    </a>
+                                    <small><b>Wikipedia (fr)</b></small>
+                                </div>
+                                {% endif %}
                             </div>
-                            <div class="normdaten-item">
-                                <a href="{{ normdaten.sitelink_fr }}" target="_blank" title="Wikipedia Französisch">
-                                    <img src="/static/icons/wikipedia.png" alt="Wikipedia (fr)" class="icon">
-                                </a>
-                                <small><b>Wikipedia (fr)</b></small>
-                            </div>
-                        </div>
                     </div>                        
                 </div>                  
             </div>
