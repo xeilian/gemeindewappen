@@ -1,0 +1,7 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="182" height="191" version="1.1">
+	<path d="M 6,93 l 1,15 a 83.6,83.6 0 0,0 167,0 l 1,-15 z" style="fill:#33f;stroke:none"/>
+	<path d="M 3,3 l 3,90 l 85,0 l 0,-90 z" style="fill:#fff;stroke:#000;stroke-width:3"/>
+	<path d="M 177,3 l -86,0 l 0,90 l 84,0 z" style="fill:red;stroke:#000;stroke-width:3"/>
+	<path d="M 3,3 l 4,105 a 83.6,83.6 0 0,0 167,0 l 4,-105 z" style="fill:none;stroke:#000;stroke-width:5"/>
+</svg>

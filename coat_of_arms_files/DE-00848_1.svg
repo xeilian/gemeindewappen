@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="492" width="434">
+	<g stroke="#000000">
+		<path d="m423,3 c0,250 -70,360 -210,485 57,-45 125,-120 165,-192 s53,-170 53,-286.5 l-6.5,-6.5z" stroke-width="4"/>
+		<path d="m3,3 h420 c0,250 -70,360 -210,485 -140,-125 -210,-235 -210,-485z" fill="#fcdd09" stroke-width="4"/>
+		<g id="kordel" stroke-width="2" fill="#da121a">
+			<path id="a" d="m213,321 c6,9.5 6,9.5 6,13.5 v4 c0,4 0,4 -6,-5.5 -6,-9.5 -6,-9.5 -6,-13.5 v-4 c0,-4 0,-4 6,5.5z"/>
+			<use xlink:href="#a" transform="translate(0,12)"/>
+			<use xlink:href="#a" transform="translate(0,24)"/>
+			<use xlink:href="#a" transform="translate(0,36)"/>
+			<use xlink:href="#a" transform="translate(0,48)"/>
+			<use xlink:href="#a" transform="translate(0,60)"/>
+			<use xlink:href="#a" transform="translate(0,72)"/>
+			<use xlink:href="#a" transform="translate(0,84)"/>
+			<path d="m213,417 c6,9.5 6,9.5 2,9.5 h-4 c-3,0 -4,-1 -4,-4 v-11 c0,-4 0,-4 6,5.5z"/>
+		</g>
+		<use xlink:href="#kordel" transform="translate(-18,-23)"/>
+		<use xlink:href="#kordel" transform="translate(18,-23)"/>
+		<use xlink:href="#kordel" transform="translate(-36,-46)"/>
+		<use xlink:href="#kordel" transform="translate(36,-46)"/>
+		<use xlink:href="#kordel" transform="translate(-77,-73)"/>
+		<use xlink:href="#kordel" transform="translate(77,-73)"/>
+		<use xlink:href="#kordel" transform="translate(-95,-86)"/>
+		<use xlink:href="#kordel" transform="translate(95,-86)"/>
+		<use xlink:href="#kordel" transform="translate(-113,-99)"/>
+		<use xlink:href="#kordel" transform="translate(113,-99)"/>
+		<use xlink:href="#kordel" transform="translate(-131,-121)"/>
+		<use xlink:href="#kordel" transform="translate(131,-121)"/>
+		<g stroke-width="3">
+			<path d="m168,331 v-166 h-23 v101 h-72 v-216 h280 v216 h-72 v-101 h-23 v166z" fill="#da121a"/>
+			<path d="m73,165 h280 m-280,-99 h280" fill="none"/>
+			<g id="ring">
+				<circle cx="213" cy="37.5" r="26" fill="#da121a"/>
+				<circle cx="213" cy="37.5" r="13.5" fill="#fcdd09"/>
+			</g>
+			<use xlink:href="#ring" transform="translate(-132.5)"/>
+			<use xlink:href="#ring" transform="translate(132.5)"/>
+		</g>
+	</g>
+</svg>
