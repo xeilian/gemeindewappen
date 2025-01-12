@@ -12,15 +12,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landkreise</title>
 </head>
-<body>
-    <div class="entity-detail-container" style="width: 100%;">
-    <h1>Liste der Landkreise</h1>
-    <ul>
-        {% for entity in entities %}
-            <b><a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a></b> <small>({{ entity.type_in_header }} in {{ entity.bundesland }})</small><br>
-        {% endfor %}
-    </ul>
+<body style="margin: 0; padding: 0; width: 100%;">
+    <div style="display: flex; justify-content: space-between">
+        <div style="display: flex; flex-direction: column; justify-content: flex-start; width: 48%;">
+            <div class="entity-detail-container" style="margin-bottom: 40px; height: 35vh">
+                <h2>Infofeld</h2>
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+            
+            <div class="entity-detail-container" style="height: 35vh">
+                <h2>Zufälliges Wappen</h2>
+                <a href="entity/{{ random_wappen.wikidata_id }}/""><img src="{{ random_wappen.coat_of_arms_image }}" align="center" height="75%" style="margin-left: 15px; margin-top: 10px;"></a>
+            </div>
+        </div>
+        
+        
+        <div class="entity-detail-container" style="width: 48%; overflow-y: auto; padding-right: 10px;">
+            <h2>Liste der Wappen</h2>
+            <div class="scrollable-content" style="height: 70vh; overflow-y: auto;">
+                <ul>
+                    {% for entity in entities %}
+                        {% if entity.online %}
+                            <b><a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a></b> 
+                            <small>({{ entity.type_in_header }} in {{ entity.bundesland }})</small><br>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
+    
+    
 </body>
 </html>
 {% endblock %}

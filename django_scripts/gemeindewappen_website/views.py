@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.db.models import Max
 from .models import *
+from django.db.models import Q
+import random
 
 # Create your views here.
 
 def entity_list(request):
-    entities = Entity.objects.exclude(type="ehem_landkreis")
-    return render(request, 'frontpage.html', {'entities': entities})
+    entities = Entity.objects.order_by('name')
+    random_wappen = random.choice(Wappen.objects.all())
+    return render(request, 'frontpage.html', {'entities': entities, 'random_wappen': random_wappen})
 
 def entity_detail(request, wikidata_id):
     entity = Entity.objects.get(wikidata_id=wikidata_id)
@@ -47,10 +50,6 @@ def maps(request):
 def about(request):
     return render(request, 'about.html')
 
-from django.shortcuts import render
-from .models import Entity
-from django.db.models import Q
-
 def search(request):
     query = request.GET.get('q', '')
     
@@ -67,3 +66,6 @@ def search(request):
     }
     return render(request, 'search_results.html', context)
 
+def coa_list(request):
+    entities = Entity.objects.order_by('name')
+    return render(request, 'coa_list.html', {'entities': entities})

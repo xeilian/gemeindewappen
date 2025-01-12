@@ -11,51 +11,57 @@
         <h1 style="height: 70px; padding: 10px;">{{ entity.name }}</h1>
         <p class="wikidata-id">{{ entity.type_in_header }} in {{ entity.bundesland }}</p>
     </div>
-
     <div class="entity-administrative" style="margin-top: 20px; margin-bottom: 20px;">
         <h3>Administrative Einbettung</h3>
         <p>Deutschland → {{ entity.bundesland }}{%if entity.landkreis %} → {{ entity.landkreis }}{% endif %} → {{ entity.name }}</p>
     </div>
+    <style>
+    .tinkturen-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .tinkturen-box {
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    </style>
     <div class="entity-info" >
         <div class="entity-coa" style="margin-left: 20px; margin-bottom: 20px;">
             <img src="{{ wappen.coat_of_arms_image }}"
             alt="Wappen von {{ entity.name }}" style="width: 50%; margin-top: 20px;">
+            {% if wappen.blasionierung %}
             <h3 style="margin-top: 20px;">Blasonierung</h3>
-            <p>{{ entity.blasonierung }}</p>
+            <p>{{ wappen.blasionierung }}</p>
+            {% endif %}
             <h3 style="margin-top: 20px;">Tinkturen</h3>
-            <div class="entity-tinkturen">
-                <div class="tinktur or"></div>
-                <div class="tinktur sable"></div>
-                <div class="tinktur vert"></div>
+            <div class="tinkturen-grid">
+                {% if wappen.schwarz %}
+                <div class="tinkturen-box" style="background-color: black; color: white;">sable</div>
+                {% endif %}
+                {% if wappen.gelb %}
+                <div class="tinkturen-box" style="background-color: yellow; color: black;">or</div>
+                {% endif %}
+                {% if wappen.weiß %}
+                <div class="tinkturen-box" style="background-color: white; color: black;">argent</div>
+                {% endif %}
+                {% if wappen.grün %}
+                <div class="tinkturen-box" style="background-color: green; color: white;">vert</div>
+                {% endif %}
+                {% if wappen.rot %}
+                <div class="tinkturen-box" style="background-color: red; color: white;">gules</div>
+                {% endif %}
+                {% if wappen.blau %}
+                <div class="tinkturen-box" style="background-color: blue; color: white;">azure</div>
+                {% endif %}
             </div>
         </div>
-        <style>
-        .entity-details {
-            width: 97%;
-            border-collapse: collapse;
-        }
-
-        .entity-details th {
-            width: 40%;
-            text-align: left;
-            padding: 8px;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .entity-details td {
-            width: 55%;
-            text-align: left;
-            padding: 8px;
-            border-top: 1px solid #ddd;
-            font-size: 12px;
-        }
-
-        .entity-details tr {
-            border-bottom: 1px solid #ddd; 
-            border-top: 1px solid #ddd;
-        }
-        </style>
         <div class="entity-description" style="margin-right: 20px; margin-bottom: 20px;"">
             <h3 style="text-align: left; margin-bottom: 10px;">Basisinformationen</h3>
             <table class="entity-details">
@@ -104,7 +110,7 @@
                         <th>Regionalschlüssel</th>
                         <td>{{ normdaten.regional_key }}</td>
                     </tr>
-                {% endif %}                
+                {% endif %}            
             </table>
 
             <div class="entity-map" style="margin-top: 20px;">
@@ -211,6 +217,14 @@
                             {% endif %}
                             </div>
                             <div class="normdaten-row">
+                                {% if leobw_link %}
+                                <div class="normdaten-item">
+                                    <a href="{{ normdaten.sitelink_de }}" target="_blank" title="Wikipedia Deutsch">
+                                        <img src="/static/icons/leobw.png" alt="Wikipedia (de)" class="icon">
+                                    </a>
+                                    <small><b>LEO-BW</b></small>
+                                </div>
+                                {% endif %}
                                 {% if normdaten.sitelink_de %}
                                 <div class="normdaten-item">
                                     <a href="{{ normdaten.sitelink_de }}" target="_blank" title="Wikipedia Deutsch">
@@ -241,6 +255,8 @@
             </div>
         </div>
     </div>
-    <!-- <a href="{% url 'entity_list' %}" class="nav-link">Zurück zur Landkreisliste</a> -->
-</div>
+    <div class="entity-detail-container" style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
+        <h3>Einzelnachweise</h3>
+        Blasonierung: Leo-BW; Wappen: Wikimedia; Sonstige Informationen: Wikidata
+    </div>
 {% endblock %}

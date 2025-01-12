@@ -253,6 +253,32 @@ html {
     }
 }
 
+.entity-details {
+    width: 97%;
+    border-collapse: collapse;
+}
+
+.entity-details th {
+    width: 40%;
+    text-align: left;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.entity-details td {
+    width: 55%;
+    text-align: left;
+    padding: 8px;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+}
+
+.entity-details tr {
+    border-bottom: 1px solid #ddd; 
+    border-top: 1px solid #ddd;
+}
+
 .nav-link {
     display: inline-block;
     background-color: #007bff;
@@ -267,6 +293,21 @@ html {
     background-color: #0056b3;
 }
 
+.tinkturen-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tinkturen-box {
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 /* Normdaten-Stylings */
 .normdaten-container {

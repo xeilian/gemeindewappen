@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block title %}
+    Gemeindewappen-Datenbank
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wappen</title>
+</head>
+<body>
+    <div class="entity-detail-container" style="width: 100%;">
+    <h1>Liste der Wappen</h1>
+    <ul>
+        {% for entity in entities %}
+            {% if entity.online %}
+                <b><a href="{% url 'entity_detail' entity.wikidata_id %}">{{ entity.name }}</a></b> <small>({{ entity.type_in_header }} in {{ entity.bundesland }})</small><br>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>
+{% endblock %}
