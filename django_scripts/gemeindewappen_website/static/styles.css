@@ -173,6 +173,10 @@ html {
     padding: 0px;
 }
 
+.entity-detail-container p {
+    display: block;
+}
+
 .entity-header {
     text-align: center;
 }

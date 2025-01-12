@@ -1,14 +1,12 @@
 from django.shortcuts import render
-from django.db.models import Max
 from .models import *
 from django.db.models import Q
 import random
 
-# Create your views here.
-
 def entity_list(request):
-    entities = Entity.objects.order_by('name')
-    random_wappen = random.choice(Wappen.objects.all())
+    entities = Entity.objects.filter(online='x').order_by('name')
+    wappen = Wappen.objects.filter(wikidata_id__in=entities.values_list('wikidata_id', flat=True))
+    random_wappen = random.choice(wappen)
     return render(request, 'frontpage.html', {'entities': entities, 'random_wappen': random_wappen})
 
 def entity_detail(request, wikidata_id):
@@ -19,18 +17,6 @@ def entity_detail(request, wikidata_id):
     population_filter = Population.objects.filter(wikidata_id=wikidata_id).order_by('-year')
     area = Area.objects.filter(wikidata_id=wikidata_id).order_by('-year')
     area_filter = Area.objects.filter(wikidata_id=wikidata_id).order_by('-year')
-
-    #filters
-    # area_2023 = Area.objects.filter(wikidata_id=wikidata_id, year=2023)
-    # area_2022 = Area.objects.filter(wikidata_id=wikidata_id, year=2022)
-    # area_none = Area.objects.filter(wikidata_id=wikidata_id, year__isnull=True)
-
-    # if area_2023:
-    #     area_filtered = area_2023[0]
-    # elif area_2022:
-    #     area_filtered = area_2022[0]
-    # else:
-    #     area_filtered = area_none[0]
 
     context = {
         'entity': entity,

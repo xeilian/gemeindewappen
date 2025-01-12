@@ -56,8 +56,7 @@ class Normdaten(models.Model):
         db_table = 'normdaten'
 
     def __str__(self):
-        return self.name
-    
+        return self.name   
 
 class Wappen(models.Model):
     wikidata_id = models.CharField(max_length=255)
@@ -78,7 +77,6 @@ class Wappen(models.Model):
     def __str__(self):
         return self.name
 
-
 class Population(models.Model):
     wikidata_id = models.CharField(max_length=255)
     year = models.CharField(max_length=255)
@@ -90,7 +88,6 @@ class Population(models.Model):
     def __str__(self):
         return self.name
     
-
 class Area(models.Model):
     wikidata_id = models.CharField(max_length=255)
     year = models.CharField(max_length=255)
