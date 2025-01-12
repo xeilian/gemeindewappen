@@ -18,7 +18,7 @@ def wikidata_extractor(mode, wikidata_id):
     from SPARQLWrapper import SPARQLWrapper, JSON
     from collections import defaultdict
 
-    # check: Is the mode correctly stated (s or l?)?
+    # check: Is the mode correctly stated (s, l or g)?
     if mode == 's':
         mode_in_query = f"BIND(wd:{wikidata_id} AS ?id)"
     elif mode == 'l':
@@ -26,7 +26,7 @@ def wikidata_extractor(mode, wikidata_id):
     elif mode == 'p':
         mode_in_query = f"?id wdt:P31 wd:{wikidata_id}."
     else:
-        return print("Error: Wrong query. Mode input should either be 's' for self-extraction, 'l' for extraction of all entities inside of bigger entity or 'g' for extraction of all entities that have a given property.")
+        return print("Error: Wrong query. Mode input should either be 's' for self-extraction, 'l' for extraction of all entities inside of bigger entity or 'p' for extraction of all entities that have a given property.")
 
     sparql_query = f"""
     SELECT DISTINCT ?id
